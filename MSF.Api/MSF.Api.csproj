@@ -11,7 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MSF.Domain\MSF.Domain.csproj" />
     <ProjectReference Include="..\MSF.Identity\MSF.Identity.csproj" />
+    <ProjectReference Include="..\MSF.Service\MSF.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\Identity\" />
   </ItemGroup>
 
 </Project>
