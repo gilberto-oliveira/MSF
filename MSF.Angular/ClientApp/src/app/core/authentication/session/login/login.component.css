@@ -1,0 +1,19 @@
+@media all and (max-width: 720px) {
+    .auth-form {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media all and (min-width: 721px) {
+    .auth-form {
+        display: flex;
+        flex-direction: column;
+        width: 20em;
+        margin: 0 auto;
+    }
+}
+
+p {
+    text-align: center;
+}

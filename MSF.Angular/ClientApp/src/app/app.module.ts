@@ -2,25 +2,34 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NavigationComponent } from './core/layout/navigation/navigation.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MaterialModule } from './material.module';
+import { AppRoutingModule } from './app-routing.module';
+import { IndexComponent } from './core/layout/index/index.component';
+import { ProgressInterceptor } from './core/interceptors/progress-interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    IndexComponent,
+    NavigationComponent,
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+  BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-    ])
+    BrowserAnimationsModule,
+    LayoutModule,
+    MaterialModule,
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ProgressInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

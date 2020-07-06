@@ -1,0 +1,22 @@
+<br />
+<form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="auth-form">
+    <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input formControlName="Email" matInput placeholder="fulano@email.com" type="email" autofocus>
+        <mat-icon matSuffix>email</mat-icon>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Senha</mat-label>
+        <input formControlName="PasswordHash" matInput type="password" placeholder="*******************">
+        <mat-icon matSuffix>lock</mat-icon>
+    </mat-form-field>
+    <button mat-raised-button color="primary" matTooltip="Fazer Login" [disabled]="!authForm.valid">ENTRAR</button>
+</form>
+<br />
+<p>
+    <a mat-button color="primary" href="#">Esqueceu a Senha?</a><br /><br />
+    <button mat-raised-button color="warn" matTooltip="Entrar com Google">
+        <img src="../../../../../assets/images/google-plus.svg" height="20px" />&nbsp;
+        Entrar com Google
+    </button>
+</p>

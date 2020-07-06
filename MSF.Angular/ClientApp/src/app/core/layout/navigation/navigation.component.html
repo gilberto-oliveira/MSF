@@ -1,0 +1,63 @@
+<mat-progress-bar *ngIf="showLoad" mode="indeterminate" color="primary"
+    [style]="{'height': '4.5px', 'position': 'fixed', 'top':'0', 'width': '100%', 'z-index': '1021'}">
+</mat-progress-bar>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <mat-list-item>
+          <a matLine routerLink='../category/list'>Categorias</a>
+          <mat-icon color="primary">ballot</mat-icon>
+      </mat-list-item>
+      <mat-list-item>
+          <a matLine href="#">Produtos</a>
+          <mat-icon color="primary">monetization_on</mat-icon>
+      </mat-list-item>
+      <mat-list-item>
+          <a matLine href="#">Fornecedores</a>
+          <mat-icon color="primary">supervised_user_circle</mat-icon>
+      </mat-list-item>
+      <mat-list-item>
+          <a matLine href="#">Lojas</a>
+          <mat-icon color="primary">home_work</mat-icon>
+      </mat-list-item>
+      <mat-list-item>
+          <a matLine href="#">Usuários</a>
+          <mat-icon color="primary">face</mat-icon>
+      </mat-list-item>
+      <mat-list-item>
+          <a matLine href="#">Estoque</a>
+          <mat-icon color="primary">explicit</mat-icon>
+      </mat-list-item>
+      <mat-list-item>
+          <a matLine href="#">Sobre</a>
+          <mat-icon color="primary">help</mat-icon>
+      </mat-list-item>
+  </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" [class.mat-elevation-z6]="true">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="(isHandset$ | async)">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <a mat-button routerLink='../index'>
+        <img src="../../assets/images/logo.svg" height="36px" />&nbsp;
+        Moda Sem Frescura
+      </a>
+    </mat-toolbar>
+    <div class="primary-header">
+      <h1>{{ title }}</h1>
+    </div>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
