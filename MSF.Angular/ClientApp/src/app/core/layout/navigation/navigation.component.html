@@ -1,6 +1,3 @@
-<mat-progress-bar *ngIf="showLoad" mode="indeterminate" color="primary"
-    [style]="{'height': '4.5px', 'position': 'fixed', 'top':'0', 'width': '100%', 'z-index': '1021'}">
-</mat-progress-bar>
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
@@ -45,13 +42,14 @@
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()"
-        *ngIf="(isHandset$ | async)">
+        *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <a mat-button routerLink='../index'>
         <img src="../../assets/images/logo.svg" height="36px" />&nbsp;
         Moda Sem Frescura
       </a>
+      <mat-progress-spinner *ngIf="showLoad$ | async" mode="indeterminate" color="accent" diameter="40" strokeWidth="6"></mat-progress-spinner>
     </mat-toolbar>
     <div class="primary-header">
       <h1>{{ title }}</h1>

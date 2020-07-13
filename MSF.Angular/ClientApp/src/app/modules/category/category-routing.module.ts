@@ -4,7 +4,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CategoryListComponent } from './category-list/category-list.component';
+import { CategoryFormComponent } from './category-form/category-form.component';
 import { MaterialModule } from './../../material.module';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 const routes: Routes = [
     { path: 'list', component: CategoryListComponent },
@@ -14,7 +16,9 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        CategoryListComponent
+        CategoryListComponent,
+        CategoryFormComponent,
+        ConfirmDialogComponent
     ],
     imports: [
         CommonModule,
@@ -23,6 +27,10 @@ const routes: Routes = [
         HttpClientModule,
         MaterialModule
     ],
-    exports: [RouterModule]
-  })
-  export class CategoryRoutingModule { }
+    exports: [RouterModule],
+    entryComponents: [
+        CategoryFormComponent,
+        ConfirmDialogComponent
+    ]
+})
+export class CategoryRoutingModule { }

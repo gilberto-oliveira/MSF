@@ -4,14 +4,16 @@ using MSF.Domain.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MSF.Domain.Migrations
 {
     [DbContext(typeof(MSFDbContext))]
-    partial class MSFDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200710003709_AddUniqueIndexInCodeColumns")]
+    partial class AddUniqueIndexInCodeColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -218,6 +220,10 @@ namespace MSF.Domain.Migrations
 
                     b.Property<int>("CategoryId");
 
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(4);
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(256);
@@ -225,6 +231,9 @@ namespace MSF.Domain.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
 
                     b.ToTable("Subcategories");
                 });

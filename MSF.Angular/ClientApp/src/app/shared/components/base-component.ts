@@ -21,6 +21,10 @@ export abstract class BaseComponent {
     });
   }
 
+  public clone(obj: any): any {
+    return JSON.parse(JSON.stringify(obj));
+  }
+
   public setTitle(title: string) {
     this._titleService.setTitle(title);
   }

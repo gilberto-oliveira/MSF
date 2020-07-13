@@ -11,8 +11,10 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MSF.Common.Models;
 using MSF.Domain.Context;
+using MSF.Domain.UnitOfWork;
 using MSF.Identity.Context;
 using MSF.Identity.Models;
+using MSF.Service.Category;
 using MSF.Service.Identity;
 using System;
 using System.Threading.Tasks;
@@ -40,7 +42,11 @@ namespace MSF.Api
                 .AddEntityFrameworkStores<MSFIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+
             services.AddTransient<IUserService, UserService>();
+
+            services.AddTransient<ICategoryService, CategoryService>();
 
             var signingConfig = new SigningConfig();
 

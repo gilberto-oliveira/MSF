@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>{{ category != null ? 'Editar Categoria: ' + category.description : 'Nova Categoria' }}</h1>
+<div mat-dialog-content>
+    <form [formGroup]="categoryForm">
+        <mat-form-field appearance="outline">
+            <mat-label>Código</mat-label>
+            <input formControlName="code" matInput placeholder="Ex. 1234" type="text" cdkFocusInitial>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Descrição</mat-label>
+            <input formControlName="description" matInput placeholder="Ex. Blusas" type="text">
+        </mat-form-field>
+    </form>
+    <mat-form-field appearance="outline">
+        <mat-label>Subcategorias</mat-label>
+        <mat-chip-list #chipList>
+            <mat-chip *ngFor="let subcategory of subcategories; let i = index;" [selectable]="true" [removable]="true"
+                (removed)="removeSubcategory(i)">
+                {{ subcategory.description }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="Ex. Regata" [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                (matChipInputTokenEnd)="addSubcategory($event)">
+        </mat-chip-list>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Cancelar</button>
+    <button mat-raised-button color="primary" [disabled]="!categoryForm.valid || (subcategories.length < 1 || subcategories.length >= 6)" (click)="onSave()">Salvar</button>
+</div>

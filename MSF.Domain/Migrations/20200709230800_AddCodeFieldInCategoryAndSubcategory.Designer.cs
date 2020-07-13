@@ -4,14 +4,16 @@ using MSF.Domain.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MSF.Domain.Migrations
 {
     [DbContext(typeof(MSFDbContext))]
-    partial class MSFDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200709230800_AddCodeFieldInCategoryAndSubcategory")]
+    partial class AddCodeFieldInCategoryAndSubcategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,17 +56,12 @@ namespace MSF.Domain.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasMaxLength(5);
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
 
                     b.ToTable("Categories");
                 });
@@ -218,8 +215,10 @@ namespace MSF.Domain.Migrations
 
                     b.Property<int>("CategoryId");
 
+                    b.Property<string>("Code")
+                        .HasMaxLength(4);
+
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
