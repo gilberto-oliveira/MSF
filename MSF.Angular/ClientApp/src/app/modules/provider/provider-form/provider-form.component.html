@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>{{ provider != null ? 'Editar Fornecedor: ' + provider.name : 'Novo Fornecedor' }}</h1>
+<div mat-dialog-content>
+    <mat-slide-toggle (change)="changeMask($event)">Pessoa Jurídica</mat-slide-toggle>
+    <form [formGroup]="providerForm">
+        <mat-form-field appearance="outline">
+            <mat-label>Razão Social/Nome</mat-label>
+            <input formControlName="name" matInput placeholder="Ex. Reserve Joias" type="text" cdkFocusInitial>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>CPF/CNPJ</mat-label>
+            <input formControlName="code" matInput placeholder="Ex. 123.456.789-10" [mask]="mask" type="text">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="stateId" placeholder="Ex. São Paulo">
+                <!-- place ngx-mat-select-search inside mat-option to allow opening without initial selection -->
+                <mat-option>
+                    <ngx-mat-select-search [formControl]="stateSelectSearch" [searching]="stateSearching"
+                                        placeholderLabel="Ex. São Paulo" 
+                                        noEntriesFoundLabel="Estado não encontrado">
+                    </ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let state of states | async" [value]="state.id">
+                    {{state.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Cancelar</button>
+    <button mat-raised-button color="primary" [disabled]="!providerForm.valid" (click)="onSave()">Salvar</button>
+</div>

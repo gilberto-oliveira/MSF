@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IndexComponent } from './core/layout/index/index.component';
+import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
+import { MaterialModule } from './material.module';
 
 const routes: Routes = [
   {
@@ -25,13 +27,25 @@ const routes: Routes = [
   {
     path: 'category', loadChildren: () => import('./modules/category/category.module')
       .then(m => m.CategoryModule)
+  },
+  {
+    path: 'provider', loadChildren: () => import('./modules/provider/provider.module')
+      .then(m => m.ProviderModule)
   }
 ];
 
 @NgModule({
+  declarations: [
+    ConfirmDialogComponent
+  ],
   exports: [RouterModule],
-  imports: [RouterModule.forRoot(routes)]
+  imports: [
+    RouterModule.forRoot(routes),
+    MaterialModule
+  ],
+  entryComponents: [
+    ConfirmDialogComponent
+  ]
 })
-
 
 export class AppRoutingModule { }

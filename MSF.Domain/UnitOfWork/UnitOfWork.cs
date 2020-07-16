@@ -11,7 +11,12 @@ namespace MSF.Domain.UnitOfWork
 
         private ISubcategoryRepository _subcategoryRepository;
 
+        private IProviderRepository _providerRepository;
+
+        private IStateRepository _stateRepository;
+
         private readonly IMSFDbContext _context;
+
         private bool _disposed;
 
         public UnitOfWork(IMSFDbContext context)
@@ -22,6 +27,10 @@ namespace MSF.Domain.UnitOfWork
         public ICategoryRepository CategoryRepository => _categoryRepository ?? (_categoryRepository = new CategoryRepository(_context));
 
         public ISubcategoryRepository SubcategoryRepository => _subcategoryRepository ?? (_subcategoryRepository = new SubcategoryRepository(_context));
+        
+        public IProviderRepository ProviderRepository => _providerRepository ?? (_providerRepository = new ProviderRepository(_context));
+        
+        public IStateRepository StateRepository => _stateRepository ?? (_stateRepository = new StateRepository(_context));
 
         public int? UserId { get { return _context._currentUserId; } }
 
@@ -59,6 +68,10 @@ namespace MSF.Domain.UnitOfWork
         ICategoryRepository CategoryRepository { get; }
 
         ISubcategoryRepository SubcategoryRepository { get; }
+
+        IProviderRepository ProviderRepository { get; }
+
+        IStateRepository StateRepository { get; }
 
         int? UserId { get; }
 

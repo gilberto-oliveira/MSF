@@ -1,0 +1,51 @@
+<button mat-fab color="primary" aria-label="Novo Fornecedor" (click)="openDialog()">
+    <mat-icon>add</mat-icon>
+</button>
+
+<mat-form-field>
+    <mat-label>Filtrar</mat-label>
+    <input matInput placeholder="Ex. Reserve" #input>
+</mat-form-field>
+
+<div class="mat-elevation-z4">
+
+    <table mat-table [dataSource]="providers">
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Razão Social/Nome </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <!-- Code Column -->
+        <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef> CPF/CNPJ </th>
+            <td mat-cell *matCellDef="let element"> {{formatCode(element.code)}} </td>
+        </ng-container>
+
+        <!-- StateName Column -->
+        <ng-container matColumnDef="stateName">
+            <th mat-header-cell *matHeaderCellDef> Estado </th>
+            <td mat-cell *matCellDef="let element"> {{element.stateName}} </td>
+        </ng-container>
+
+        <!-- Options Column -->
+        <ng-container matColumnDef="options">
+            <th mat-header-cell *matHeaderCellDef> Ações </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-icon-button aria-label="Editar Fornecedor" (click)="openDialog(element)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button aria-label="Excluir Fornecedor">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [length]="resultsLength" [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons [pageSize]="pageSize">
+    </mat-paginator>
+</div>

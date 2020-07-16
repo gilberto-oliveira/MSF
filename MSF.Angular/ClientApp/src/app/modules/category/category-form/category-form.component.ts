@@ -1,7 +1,7 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, Inject, OnInit, AfterViewInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar, MatChipInputEvent } from '@angular/material';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BaseComponent } from 'src/app/shared/components/base-component';
 import { NavigationTitleService } from 'src/app/core/services/navigation-title.service';
 import { Category } from './../models/category';

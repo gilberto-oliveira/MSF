@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Identity\" />
+    <Folder Include="Controllers\State\" />
   </ItemGroup>
 
 </Project>

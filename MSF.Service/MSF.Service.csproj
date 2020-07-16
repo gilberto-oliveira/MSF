@@ -14,4 +14,8 @@
     <ProjectReference Include="..\MSF.Identity\MSF.Identity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="State\" />
+  </ItemGroup>
+
 </Project>
