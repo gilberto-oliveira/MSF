@@ -21,4 +21,8 @@ export class StateService {
     return this.http.get<State[]>(`${this.baseUrl}/Lazy?filter=${filter}`);
   }
 
+  public getById(id: number): Observable<State> {
+    return this.http.get<State>(`${this.baseUrl}/${id}`);
+  }
+
 }

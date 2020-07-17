@@ -32,7 +32,7 @@ namespace MSF.Api.Controllers.Category
         public async Task<IActionResult> Post([FromBody] Domain.Models.Category category)
         {
             await _categoryService.AddAsync(category);
-            return Created($"/api/driver/{category.Id}", new Domain.Models.Category { Id = category.Id });
+            return Created($"/api/category/{category.Id}", new Domain.Models.Category { Id = category.Id });
         }
 
         [HttpPut]

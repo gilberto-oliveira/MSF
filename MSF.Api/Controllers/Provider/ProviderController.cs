@@ -24,5 +24,32 @@ namespace MSF.Api.Controllers.Provider
             return Ok(providers);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] Domain.Models.Provider provider)
+        {
+            await _providerService.AddAsync(provider);
+            return Created($"/api/provider/{provider.Id}", new Domain.Models.Provider { Id = provider.Id });
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] Domain.Models.Provider provider)
+        {
+            await _providerService.UpdateAsync(provider);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var provider = await _providerService.FindAsync(id);
+
+            if (provider is null)
+                return NotFound();
+
+            await _providerService.DeleteAsync(provider);
+
+            return Ok();
+        }
+
     }
 }

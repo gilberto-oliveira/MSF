@@ -54,7 +54,7 @@ export class CategoryFormComponent extends BaseComponent implements AfterViewIni
           this.openSnackBarBottom('Categoria editada com sucesso!', 'CATEGORIAS');
           this.dialogRef.close(true);
         }, error => {
-          this.openSnackBarTop(`Erro ao criar categoria: ${error.message}`, 'CATEGORIAS');
+          this.openSnackBarTop(`Erro ao editar categoria: ${error.message}`, 'CATEGORIAS');
         });
     } else {
       this._categoryService.create(category)

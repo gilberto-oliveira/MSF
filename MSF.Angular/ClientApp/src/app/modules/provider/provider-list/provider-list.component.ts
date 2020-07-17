@@ -8,6 +8,8 @@ import { of as observableOf, fromEvent } from 'rxjs';
 import { ProviderService } from './../services/provider.service';
 import { MaskPipe } from 'ngx-mask';
 import { ProviderFormComponent } from '../provider-form/provider-form.component';
+import { ConfirmDialogModel } from 'src/app/shared/models/confirm-dialog-model';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-provider-list',
@@ -81,6 +83,28 @@ export class ProviderListComponent extends BaseComponent implements AfterViewIni
       catchError(() => {
         return observableOf([]);
       });
+  }
+
+  confirmDialog(provider: Provider) {
+    const message = `Deseja Excluir o Fornecedor: ${provider.name}?`;
+
+    const data = new ConfirmDialogModel("EXCLUIR", message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: data
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.providerService.delete(provider.id)
+          .subscribe(() => {
+            this.openSnackBarBottom('Fornecedor excluído com sucesso!', 'FORNECEDORES');
+            this.getLazy('', this.pageSize);
+          }, error => {
+            this.openSnackBarTop(`Erro ao excluir Fornecedor: ${error.message}`, 'FORNECEDORES');
+          });
+      }
+    });
   }
 
 }

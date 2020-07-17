@@ -41,7 +41,7 @@ namespace MSF.Api.Controllers.State
             return Ok(state);
         }
 
-        // GET: api/State/Lazy?filter=SP
+        // GET: api/State/Lazy?filter=
         [HttpGet("Lazy")]
         public async Task<IActionResult> FindAsync(string filter)
         {

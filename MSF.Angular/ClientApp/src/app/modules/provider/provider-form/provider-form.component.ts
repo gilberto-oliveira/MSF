@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatSlideToggleChange, MatSlideToggle } from '@angular/material';
 import { NavigationTitleService } from 'src/app/core/services/navigation-title.service';
@@ -15,14 +15,14 @@ import { StateService } from './../../../shared/services/state.service';
   templateUrl: './provider-form.component.html',
   styleUrls: ['./provider-form.component.css']
 })
-export class ProviderFormComponent extends BaseComponent implements OnInit {
+export class ProviderFormComponent extends BaseComponent implements AfterViewInit, OnInit {
 
   providerForm: FormGroup;
   public mask: string = '000.000.000-00';
   @ViewChild(MatSlideToggle, { static: true }) slideToggle: MatSlideToggle;
   stateSelectSearch = new FormControl();
   stateSearching = false;
-  public states: Observable<State[]>;
+  public states: Observable<State[]> = new Observable<State[]>();
 
   constructor(protected snackBar: MatSnackBar,
     protected _titleService: NavigationTitleService,
@@ -43,6 +43,17 @@ export class ProviderFormComponent extends BaseComponent implements OnInit {
     this.onStateFilter();
   }
 
+  ngAfterViewInit() {
+    if (this.provider != null) {
+      setTimeout(() => {
+        this.slideToggle.checked = this.provider.code.length > 11;
+        this.mask = this.slideToggle.checked ? '00.000.000/0000-00' : '000.000.000-00';
+        this.providerForm.patchValue(this.provider);
+        this.stateSelectSearch.patchValue(this.provider.stateName);
+      }, 10);
+    }
+  }
+
   changeMask(event: MatSlideToggleChange) {
     const checked = event.checked;
     this.mask = checked ? '00.000.000/0000-00' : '000.000.000-00';
@@ -50,8 +61,25 @@ export class ProviderFormComponent extends BaseComponent implements OnInit {
   }
 
   onSave() {
-    const value = this.providerForm.value;
-    console.log(value);
+    const provider = this.providerForm.value;
+    if (this.provider != null) {
+      provider.id = this.provider.id;
+      this._providerService.edit(provider)
+        .subscribe(() => {
+          this.openSnackBarBottom('Fornecedor editado com sucesso!', 'FORNECEDORES');
+          this.dialogRef.close(true);
+        }, error => {
+          this.openSnackBarTop(`Erro ao editar fornecedor: ${error.message}`, 'FORNECEDORES');
+        });
+    } else {
+    this._providerService.create(provider)
+      .subscribe(() => {
+        this.openSnackBarBottom('Fornecedor criado com sucesso!', 'FORNECEDORES');
+        this.dialogRef.close(true);
+      }, error => {
+        this.openSnackBarTop(`Erro ao criar fornecedor: ${error.message}`, 'FORNECEDORES');
+      });
+    }
   }
 
   onStateFilter() {
