@@ -19,6 +19,7 @@ using MSF.Service.Identity;
 using MSF.Service.Provider;
 using MSF.Service.Shop;
 using MSF.Service.State;
+using MSF.Service.WorkCenter;
 using System;
 using System.Threading.Tasks;
 
@@ -56,6 +57,8 @@ namespace MSF.Api
             services.AddTransient<IStateService, StateService>();
 
             services.AddTransient<IShopService, ShopService>();
+
+            services.AddTransient<IWorkCenterService, WorkCenterService>();
 
             var signingConfig = new SigningConfig();
 

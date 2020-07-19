@@ -1,6 +1,7 @@
 ﻿using MSF.Domain.UnitOfWork;
 using MSF.Domain.ViewModels;
 using MSF.Service.Base;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MSF.Service.Shop
@@ -30,6 +31,9 @@ namespace MSF.Service.Shop
             return await _unit.CommitChangesAsync();
         }
 
+        public Task<List<ShopViewModel>> FindShopsViewModelAsync(string filter) =>
+            _unit.ShopRepository.FindShopsViewModelAsync(filter);
+
         public Task<Domain.Models.Shop> FindAsync(int? id) =>
             _unit.ShopRepository.FindAsync(id);
     }
@@ -45,5 +49,7 @@ namespace MSF.Service.Shop
         Task<int> UpdateAsync(Domain.Models.Shop shop);
 
         Task<Domain.Models.Shop> FindAsync(int? id);
+
+        Task<List<ShopViewModel>> FindShopsViewModelAsync(string filter);
     }
 }

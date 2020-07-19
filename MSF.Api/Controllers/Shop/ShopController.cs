@@ -24,6 +24,13 @@ namespace MSF.Api.Controllers.Shop
             return Ok(shops);
         }
 
+        [HttpGet("Find")]
+        public async Task<IActionResult> FindShops(string filter)
+        {
+            var shops = await _shopService.FindShopsViewModelAsync(filter);
+            return Ok(shops);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Domain.Models.Shop shop)
         {

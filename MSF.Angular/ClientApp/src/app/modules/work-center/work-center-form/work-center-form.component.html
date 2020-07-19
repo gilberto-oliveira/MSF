@@ -1,0 +1,32 @@
+<h1 mat-dialog-title>{{ workCenter != null ? 'Editar Caixa: ' + workCenter.description : 'Novo Caixa' }}</h1>
+<div mat-dialog-content>
+    <form [formGroup]="workCenterForm">
+        <mat-form-field appearance="outline">
+            <mat-label>Código</mat-label>
+            <input formControlName="code" matInput placeholder="Ex. CAX001" type="text" cdkFocusInitial>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Descrição</mat-label>
+            <input formControlName="description" matInput placeholder="Ex. Principal" type="text">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Loja</mat-label>
+            <mat-select formControlName="shopId" placeholder="Ex. Moda Sem Frescura">
+                <!-- place ngx-mat-select-search inside mat-option to allow opening without initial selection -->
+                <mat-option>
+                    <ngx-mat-select-search [formControl]="shopSelectSearch" [searching]="shopSearching"
+                                        placeholderLabel="Ex. Moda Sem Frescura" 
+                                        noEntriesFoundLabel="Loja não encontrada">
+                    </ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let shop of shops | async" [value]="shop.id">
+                    {{shop.description}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Cancelar</button>
+    <button mat-raised-button color="primary" [disabled]="!workCenterForm.valid" (click)="onSave()">Salvar</button>
+</div>

@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { Shop } from './../models/shop';
+import { WorkCenter } from '../models/work-center';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ShopService {
+export class WorkCenterService {
 
-  private baseUrl = `${environment.apiUrl}/shop`;
+  private baseUrl = `${environment.apiUrl}/workcenter`;
 
   constructor(private http: HttpClient) { }
 
@@ -17,19 +17,15 @@ export class ShopService {
     return this.http.get<any>(`${this.baseUrl}/Lazy?filter=${filter}&take=${take}&skip=${skip}`);
   }
 
-  create(Shop: Shop): Observable<any> {
-    return this.http.post(`${this.baseUrl}`, Shop);
+  create(workcenter: WorkCenter): Observable<any> {
+    return this.http.post(`${this.baseUrl}`, workcenter);
   }
 
-  edit(Shop: Shop): Observable<any> {
-    return this.http.put(`${this.baseUrl}`, Shop);
+  edit(workcenter: WorkCenter): Observable<any> {
+    return this.http.put(`${this.baseUrl}`, workcenter);
   }
 
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
-  }
-
-  find(filter: string): Observable<Shop[]> {
-    return this.http.get<Shop[]>(`${this.baseUrl}/Find?filter=${filter}`);
   }
 }
