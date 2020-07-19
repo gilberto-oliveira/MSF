@@ -21,7 +21,7 @@ import { ProgressInterceptor } from './core/interceptors/progress-interceptor';
     UnauthorizedComponent,
   ],
   imports: [
-BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,

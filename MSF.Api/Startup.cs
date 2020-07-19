@@ -17,6 +17,7 @@ using MSF.Identity.Models;
 using MSF.Service.Category;
 using MSF.Service.Identity;
 using MSF.Service.Provider;
+using MSF.Service.Shop;
 using MSF.Service.State;
 using System;
 using System.Threading.Tasks;
@@ -53,6 +54,8 @@ namespace MSF.Api
             services.AddTransient<IProviderService, ProviderService>();
 
             services.AddTransient<IStateService, StateService>();
+
+            services.AddTransient<IShopService, ShopService>();
 
             var signingConfig = new SigningConfig();
 
