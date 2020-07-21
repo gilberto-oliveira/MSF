@@ -26,4 +26,15 @@ namespace MSF.Domain.ViewModels
 
         public int Count { get; set; }
     }
+
+    public class CategorySubcategoryViewModel
+    {
+        public int SubCategoryId { get; set; }
+
+        public string CategoryCode { get; set; }
+
+        public string Category { get; set; }
+
+        public string Subcategory { get; set; }
+    }
 }

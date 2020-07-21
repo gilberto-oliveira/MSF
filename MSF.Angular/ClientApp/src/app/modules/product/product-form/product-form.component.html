@@ -1,0 +1,32 @@
+<h1 mat-dialog-title>{{ product != null ? 'Editar Produto: ' + product.description : 'Novo Produto' }}</h1>
+<div mat-dialog-content>
+    <form [formGroup]="productForm">
+        <mat-form-field appearance="outline">
+            <mat-label>Descrição</mat-label>
+            <input formControlName="description" matInput placeholder="Ex. Camisa XPTO" type="text" cdkFocusInitial>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>% de Lucro</mat-label>
+            <input formControlName="profit" matInput placeholder="Ex. 4.00" mask="comma_separator.2" type="text">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Subcategoria</mat-label>
+            <mat-select formControlName="subcategoryId" placeholder="Ex. Cropped">
+                <!-- place ngx-mat-select-search inside mat-option to allow opening without initial selection -->
+                <mat-option>
+                    <ngx-mat-select-search [formControl]="subcategorySelectSearch" [searching]="subcategorySearching"
+                                        placeholderLabel="Ex. Blusas" 
+                                        noEntriesFoundLabel="Subcategoria não encontrada">
+                    </ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let subcategory of subcategories | async" [value]="subcategory.subCategoryId">
+                    {{ subcategory.categoryCode }} - {{ subcategory.category }} > {{ subcategory.subcategory }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Cancelar</button>
+    <button mat-raised-button color="primary" [disabled]="!productForm.valid" (click)="onSave()">Salvar</button>
+</div>

@@ -1,24 +1,18 @@
-<button mat-fab color="primary" aria-label="Nova Categoria" (click)="openDialog()">
+<button mat-fab color="primary" aria-label="Novo Produto" (click)="openDialog()">
     <mat-icon>add</mat-icon>
 </button>
-<button id="btn-export" mat-fab color="warn" matTooltip="Exportar para Excel" aria-label="Exportar para Excel" (click)="exporter.exportTable('xls', { fileName:'Categorias', Props: { Author: 'MSF' }})">
+<button id="btn-export" mat-fab color="warn" matTooltip="Exportar para Excel" aria-label="Exportar para Excel" (click)="exporter.exportTable('xls', { fileName:'Produtos', Props: { Author: 'MSF' }})">
     <mat-icon>move_to_inbox</mat-icon>
 </button>
 
 <mat-form-field>
     <mat-label>Filtrar</mat-label>
-    <input matInput placeholder="Ex. blusa" #input>
+    <input matInput placeholder="Ex. Camisa XPTO" #input>
 </mat-form-field>
 
 <div class="mat-elevation-z4">
 
-    <table mat-table matTableExporter hiddenColumns="[3]" [dataSource]="categories" #exporter="matTableExporter">
-
-        <!-- Code Column -->
-        <ng-container matColumnDef="code">
-            <th mat-header-cell *matHeaderCellDef> Código </th>
-            <td mat-cell *matCellDef="let element"> {{element.code}} </td>
-        </ng-container>
+    <table mat-table matTableExporter hiddenColumns="[3]" [dataSource]="products" #exporter="matTableExporter">
 
         <!-- Description Column -->
         <ng-container matColumnDef="description">
@@ -26,11 +20,17 @@
             <td mat-cell *matCellDef="let element"> {{element.description}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="subcategories">
-            <th mat-header-cell *matHeaderCellDef> Subcategorias </th>
+        <!-- Profit Column -->
+        <ng-container matColumnDef="profit">
+            <th mat-header-cell *matHeaderCellDef> % de Lucro </th>
+            <td mat-cell *matCellDef="let element"> {{ element.profit | number:'1.2-2' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="subcategory">
+            <th mat-header-cell *matHeaderCellDef> Subcategoria </th>
             <td mat-cell *matCellDef="let element">
                 <mat-chip-list>
-                    <mat-chip color="primary" selected *ngFor="let subcategory of element.subcategories;"> {{ subcategory.description }}</mat-chip>
+                    <mat-chip selected color="primary"> {{ element.subcategoryName }}</mat-chip>
                 </mat-chip-list>
             </td>
         </ng-container>

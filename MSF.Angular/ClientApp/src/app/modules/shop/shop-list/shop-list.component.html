@@ -1,6 +1,9 @@
 <button mat-fab color="primary" aria-label="Nova Loja" (click)="openDialog()">
     <mat-icon>add</mat-icon>
 </button>
+<button id="btn-export" mat-fab color="warn" matTooltip="Exportar para Excel" aria-label="Exportar para Excel" (click)="exporter.exportTable('xls', { fileName:'Lojas', Props: { Author: 'MSF' }})">
+    <mat-icon>move_to_inbox</mat-icon>
+</button>
 
 <mat-form-field>
     <mat-label>Filtrar</mat-label>
@@ -9,7 +12,7 @@
 
 <div class="mat-elevation-z4">
 
-    <table mat-table [dataSource]="shops">
+    <table mat-table matTableExporter hiddenColumns="[2]" [dataSource]="shops" #exporter="matTableExporter">
 
         <!-- Code Column -->
         <ng-container matColumnDef="code">

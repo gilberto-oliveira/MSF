@@ -31,7 +31,7 @@ export class CategoryFormComponent extends BaseComponent implements AfterViewIni
   ngOnInit(): void {
     this.categoryForm = this.fb.group({
       code: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4)]],
-      description: ['', [Validators.required, Validators.minLength(5)]]
+      description: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 

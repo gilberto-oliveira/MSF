@@ -15,9 +15,6 @@ const routes: Routes = [
     path: '', redirectTo: '/index', pathMatch: 'full'
   },/*
   {
-    path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],
-  },
-  {
     path: '**', component: Error404Component
   }*/
   { 
@@ -39,6 +36,14 @@ const routes: Routes = [
   {
     path: 'work-center', loadChildren: () => import('./modules/work-center/work-center.module')
       .then(m => m.WorkCenterModule)
+  },
+  {
+    path: 'product', loadChildren: () => import('./modules/product/product.module')
+      .then(m => m.ProductModule)
+  },
+  {
+    path: 'stock', loadChildren: () => import('./modules/stock/stock.module')
+      .then(m => m.StockModule)
   }
 ];
 

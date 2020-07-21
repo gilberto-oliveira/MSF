@@ -8,6 +8,8 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatTableExporterModule } from 'mat-table-exporter';
+
 import {
   MatAutocompleteModule,
   MatBadgeModule,
@@ -94,7 +96,8 @@ import {
     MatTreeModule,
     PortalModule,
     ScrollingModule,
-    NgxMatSelectSearchModule 
+    NgxMatSelectSearchModule,
+    MatTableExporterModule 
   ]
 })
 export class MaterialModule { }

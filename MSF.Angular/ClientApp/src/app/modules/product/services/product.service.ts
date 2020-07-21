@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Category } from './../models/category';
+import { Observable } from 'rxjs';
+import { Product } from './../models/product';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryService {
+export class ProductService {
 
-  private baseUrl = `${environment.apiUrl}/category`;
+  private baseUrl = `${environment.apiUrl}/product`;
 
   constructor(private http: HttpClient) { }
 
@@ -17,19 +17,15 @@ export class CategoryService {
     return this.http.get<any>(`${this.baseUrl}/Lazy?filter=${filter}&take=${take}&skip=${skip}`);
   }
 
-  create(category: Category): Observable<any> {
-    return this.http.post(`${this.baseUrl}`, category);
+  create(product: Product): Observable<any> {
+    return this.http.post(`${this.baseUrl}`, product);
   }
 
-  edit(category: Category): Observable<any> {
-    return this.http.put(`${this.baseUrl}`, category);
+  edit(product: Product): Observable<any> {
+    return this.http.put(`${this.baseUrl}`, product);
   }
 
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
-  }
-
-  find(filter: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/Find?filter=${filter}`);
   }
 }

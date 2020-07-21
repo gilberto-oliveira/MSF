@@ -2,6 +2,7 @@
 using MSF.Domain.UnitOfWork;
 using MSF.Domain.ViewModels;
 using MSF.Service.Base;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -44,6 +45,9 @@ namespace MSF.Service.Category
 
         public Task<Domain.Models.Category> FindAsync(int? id) =>
             _unit.CategoryRepository.FindAsync(id);
+
+        public Task<IEnumerable<CategorySubcategoryViewModel>> FindByFilter(string filter) =>
+            _unit.SubcategoryRepository.FindByFilter(filter);
     }
 
     public interface ICategoryService
@@ -57,5 +61,7 @@ namespace MSF.Service.Category
         Task<int> UpdateAsync(Domain.Models.Category category);
 
         Task<Domain.Models.Category> FindAsync(int? id);
+
+        Task<IEnumerable<CategorySubcategoryViewModel>> FindByFilter(string filter);
     }
 }

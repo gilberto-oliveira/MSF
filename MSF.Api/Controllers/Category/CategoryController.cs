@@ -28,6 +28,13 @@ namespace MSF.Api.Controllers.Category
             return Ok(categories);
         }
 
+        [HttpGet("Find")]
+        public async Task<IActionResult> FindByFilter(string filter)
+        {
+            var result = await _categoryService.FindByFilter(filter);
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Domain.Models.Category category)
         {
