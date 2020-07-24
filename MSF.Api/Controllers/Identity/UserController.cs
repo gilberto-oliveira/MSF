@@ -37,7 +37,7 @@ namespace MSF.Api.Controllers.Identity
         }
 
         [HttpPost]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody] User user)
         {
             await _userService.AddAsync(user);

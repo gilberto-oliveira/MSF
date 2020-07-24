@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Provider } from './../models/provider';
+import { Stock } from '../models/stock';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProviderService {
+export class StockService {
 
-  private baseUrl = `${environment.apiUrl}/provider`;
+  private baseUrl = `${environment.apiUrl}/stock`;
 
   constructor(private http: HttpClient) { }
 
@@ -17,19 +17,15 @@ export class ProviderService {
     return this.http.get<any>(`${this.baseUrl}/Lazy?filter=${filter}&take=${take}&skip=${skip}`);
   }
 
-  create(provider: Provider): Observable<any> {
-    return this.http.post(`${this.baseUrl}`, provider);
+  create(stock: Stock): Observable<any> {
+    return this.http.post(`${this.baseUrl}`, stock);
   }
 
-  edit(provider: Provider): Observable<any> {
-    return this.http.put(`${this.baseUrl}`, provider);
+  edit(stock: Stock): Observable<any> {
+    return this.http.put(`${this.baseUrl}`, stock);
   }
 
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
-  }
-
-  find(filter: string): Observable<Provider[]> {
-    return this.http.get<Provider[]>(`${this.baseUrl}/Find?filter=${filter}`);
   }
 }

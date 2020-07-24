@@ -1,6 +1,7 @@
 ﻿using MSF.Domain.UnitOfWork;
 using MSF.Domain.ViewModels;
 using MSF.Service.Base;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MSF.Service.Provider
@@ -32,6 +33,9 @@ namespace MSF.Service.Provider
 
         public Task<Domain.Models.Provider> FindAsync(int? id) =>
             _unit.ProviderRepository.FindAsync(id);
+
+        public Task<IEnumerable<ProviderViewModel>> FindByFilter(string filter) =>
+            _unit.ProviderRepository.FindByFilter(filter);
     }
 
     public interface IProviderService
@@ -45,5 +49,7 @@ namespace MSF.Service.Provider
         Task<int> UpdateAsync(Domain.Models.Provider provider);
 
         Task<Domain.Models.Provider> FindAsync(int? id);
+
+        Task<IEnumerable<ProviderViewModel>> FindByFilter(string filter);
     }
 }

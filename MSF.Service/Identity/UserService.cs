@@ -80,7 +80,7 @@ namespace MSF.Service.Identity
             {
                 try
                 {
-                    var userIdentity = await _userManager.FindByNameAsync(user.UserName);
+                    var userIdentity = await _userManager.FindByEmailAsync(user.Email);
 
                     if (userIdentity != null)
                     {

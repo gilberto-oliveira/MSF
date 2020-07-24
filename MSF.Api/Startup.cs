@@ -20,6 +20,7 @@ using MSF.Service.Product;
 using MSF.Service.Provider;
 using MSF.Service.Shop;
 using MSF.Service.State;
+using MSF.Service.Stock;
 using MSF.Service.WorkCenter;
 using System;
 using System.Threading.Tasks;
@@ -62,6 +63,8 @@ namespace MSF.Api
             services.AddTransient<IWorkCenterService, WorkCenterService>();
 
             services.AddTransient<IProductService, ProductService>();
+
+            services.AddTransient<IStockService, StockService>();
 
             var signingConfig = new SigningConfig();
 

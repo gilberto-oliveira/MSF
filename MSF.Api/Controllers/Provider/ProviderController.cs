@@ -24,6 +24,13 @@ namespace MSF.Api.Controllers.Provider
             return Ok(providers);
         }
 
+        [HttpGet("Find")]
+        public async Task<IActionResult> FindByFilter(string filter)
+        {
+            var providers = await _providerService.FindByFilter(filter);
+            return Ok(providers);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Domain.Models.Provider provider)
         {

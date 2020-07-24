@@ -2,6 +2,7 @@
 using MSF.Domain.Context;
 using MSF.Domain.Models;
 using MSF.Domain.ViewModels;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -40,10 +41,26 @@ namespace MSF.Domain.Repository
 
             return lazyProviders;
         }
+
+        public async Task<IEnumerable<ProviderViewModel>> FindByFilter(string filter)
+        {
+            var query = All().Include(c => c.State)
+                .Where(x => (x.Code + x.Name + x.State.Name + x.State.Initials).Contains(filter ?? string.Empty));
+
+            return await query.Select(s => new ProviderViewModel {
+                Id = s.Id,
+                StateId = s.StateId,
+                Code = s.Code,
+                Name = s.Name,
+                StateName = s.State.Name
+            }).ToListAsync();
+        }
     }
 
     public interface IProviderRepository: IBaseRepository<Provider>
     {
         Task<LazyProvidersViewModel> LazyProvidersViewModelAsync(string filter, int take, int skip);
+
+        Task<IEnumerable<ProviderViewModel>> FindByFilter(string filter);
     }
 }

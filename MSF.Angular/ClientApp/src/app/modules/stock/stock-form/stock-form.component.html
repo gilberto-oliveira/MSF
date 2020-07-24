@@ -1,1 +1,51 @@
-<p>stock-form works!</p>
+<h1 mat-dialog-title>{{ stock != null ? 'Editar Estoque: ' + stock.productName + stock.providerName : 'Nova Entrada' }}</h1>
+<div mat-dialog-content>
+    <form [formGroup]="stockForm">
+        <mat-form-field appearance="outline">
+            <mat-label>Data</mat-label>
+            <input formControlName="date" matInput placeholder="Data da Entrada" type="datetime-local">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Produto</mat-label>
+            <mat-select formControlName="productId" placeholder="Ex. Camisa XPTO">
+                <!-- place ngx-mat-select-search inside mat-option to allow opening without initial selection -->
+                <mat-option>
+                    <ngx-mat-select-search [formControl]="productSelectSearch" [searching]="productSearching"
+                                        placeholderLabel="Ex. Camisa XPTO" 
+                                        noEntriesFoundLabel="Produto não encontrado">
+                    </ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let product of products | async" [value]="product.id">
+                    {{ product.description }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Fornecedor</mat-label>
+            <mat-select formControlName="providerId" placeholder="Ex. Reserve">
+                <!-- place ngx-mat-select-search inside mat-option to allow opening without initial selection -->
+                <mat-option>
+                    <ngx-mat-select-search [formControl]="providerSelectSearch" [searching]="providerSearching"
+                                        placeholderLabel="Ex. Reserve" 
+                                        noEntriesFoundLabel="Fornecedor não encontrado">
+                    </ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let provider of providers | async" [value]="provider.id">
+                    {{ provider.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Preço</mat-label>
+            <input formControlName="unitPrice" matInput placeholder="Ex. R$ 4,00" prefix="R$ " mask="dot_separator.2" type="text">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Quantidade</mat-label>
+            <input formControlName="amount" matInput placeholder="Ex. 15" mask="dot_separator.0" type="text">
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Cancelar</button>
+    <button mat-raised-button color="primary" [disabled]="!stockForm.valid" (click)="onSave()">Salvar</button>
+</div>

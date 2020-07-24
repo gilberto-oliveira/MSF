@@ -47,9 +47,10 @@ import {
   MatTooltipModule,
   MatTreeModule,
 } from '@angular/material';
+import { NumberFormatPipe } from './shared/pipes/number.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [NumberFormatPipe],
   imports: [
     CommonModule
   ],
@@ -97,7 +98,9 @@ import {
     PortalModule,
     ScrollingModule,
     NgxMatSelectSearchModule,
-    MatTableExporterModule 
-  ]
+    MatTableExporterModule,
+    NumberFormatPipe
+  ],
+  providers: [NumberFormatPipe]
 })
 export class MaterialModule { }

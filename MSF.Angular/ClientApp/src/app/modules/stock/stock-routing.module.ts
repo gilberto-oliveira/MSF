@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './../../material.module';
 import { StockListComponent } from './stock-list/stock-list.component';
 import { StockFormComponent } from './stock-form/stock-form.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 const routes: Routes = [
     { path: 'list', component: StockListComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
+        NgxMaskModule.forRoot(),
         ReactiveFormsModule,
         HttpClientModule,
         MaterialModule

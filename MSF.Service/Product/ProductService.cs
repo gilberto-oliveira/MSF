@@ -1,6 +1,7 @@
 ﻿using MSF.Domain.UnitOfWork;
 using MSF.Domain.ViewModels;
 using MSF.Service.Base;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MSF.Service.Product
@@ -32,6 +33,9 @@ namespace MSF.Service.Product
 
         public Task<Domain.Models.Product> FindAsync(int? id) =>
             _unit.ProductRepository.FindAsync(id);
+
+        public Task<IEnumerable<ProductViewModel>> FindByFilter(string filter) =>
+            _unit.ProductRepository.FindByFilter(filter);
     }
 
     public interface IProductService
@@ -45,5 +49,7 @@ namespace MSF.Service.Product
         Task<int> UpdateAsync(Domain.Models.Product product);
 
         Task<Domain.Models.Product> FindAsync(int? id);
+
+        Task<IEnumerable<ProductViewModel>> FindByFilter(string filter);
     }
 }

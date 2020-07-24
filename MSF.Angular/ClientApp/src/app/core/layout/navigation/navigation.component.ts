@@ -4,6 +4,11 @@ import { Observable } from 'rxjs';
 import { map, shareReplay, startWith, delay } from 'rxjs/operators';
 import { NavigationTitleService } from './../../services/navigation-title.service';
 import { LoadingService } from '../../services/loading.service';
+import { User } from '../../authentication/auth/models/user';
+import { AuthenticationService } from '../../authentication/auth/services/authentication.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { MatSidenav } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navigation',
@@ -13,6 +18,11 @@ import { LoadingService } from '../../services/loading.service';
 export class NavigationComponent implements OnInit {
 
   public title: string;
+  public currentUser: User;
+  public fullUserName: string;
+  public userName: string;
+
+  helper = new JwtHelperService();
 
   showLoad$: Observable<boolean> = this.progressService.inProcess
     .pipe(
@@ -29,12 +39,37 @@ export class NavigationComponent implements OnInit {
     );
 
   constructor(private breakpointObserver: BreakpointObserver,
-              private titleService: NavigationTitleService,
-              private progressService: LoadingService) {}
+    private titleService: NavigationTitleService,
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private progressService: LoadingService) { }
 
   ngOnInit() {
     this.titleService.title.subscribe(updatedTitle => {
       this.title = updatedTitle;
     });
+    this.getCurrentUser();
+  }
+
+  sideToggle(sideNav: MatSidenav) {
+    if (sideNav !== undefined) {
+      sideNav.toggle();
+    }
+  }
+
+  private getCurrentUser() {
+    this.authenticationService.currentUser.subscribe(u => {
+      console.log(u);
+      this.currentUser = u;
+      if (this.currentUser && this.currentUser.token) {
+        this.userName = (this.helper.decodeToken(this.currentUser.token).sub as string);
+        this.fullUserName = (this.helper.decodeToken(this.currentUser.token).full_name as string).trim();
+      }
+    });
+  }
+
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/user/login']);
   }
 }

@@ -1,59 +1,57 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <mat-list-item>
-          <a matLine routerLink='../category/list'>Categorias</a>
-          <mat-icon color="primary">ballot</mat-icon>
+      <mat-list-item *ngIf="currentUser">
+        <a matLine routerLink='../category/list'>Categorias</a>
+        <mat-icon color="primary">ballot</mat-icon>
       </mat-list-item>
-      <mat-list-item>
-          <a matLine routerLink='../product/list'>Produtos</a>
-          <mat-icon color="primary">monetization_on</mat-icon>
+      <mat-list-item *ngIf="currentUser">
+        <a matLine routerLink='../product/list'>Produtos</a>
+        <mat-icon color="primary">monetization_on</mat-icon>
       </mat-list-item>
-      <mat-list-item>
-          <a matLine routerLink='../provider/list'>Fornecedores</a>
-          <mat-icon color="primary">supervised_user_circle</mat-icon>
+      <mat-list-item *ngIf="currentUser">
+        <a matLine routerLink='../provider/list'>Fornecedores</a>
+        <mat-icon color="primary">supervised_user_circle</mat-icon>
       </mat-list-item>
-      <mat-list-item>
-          <a matLine routerLink='../shop/list'>Lojas</a>
-          <mat-icon color="primary">home_work</mat-icon>
+      <mat-list-item *ngIf="currentUser">
+        <a matLine routerLink='../shop/list'>Lojas</a>
+        <mat-icon color="primary">home_work</mat-icon>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item *ngIf="currentUser">
         <a matLine routerLink='../work-center/list'>Caixas</a>
         <mat-icon color="primary">shopping_cart</mat-icon>
-    </mat-list-item>
-      <mat-list-item>
-          <a matLine href="#">Usuários</a>
-          <mat-icon color="primary">face</mat-icon>
+      </mat-list-item>
+      <mat-list-item *ngIf="currentUser">
+        <a matLine href="#">Usuários</a>
+        <mat-icon color="primary">face</mat-icon>
+      </mat-list-item>
+      <mat-list-item *ngIf="currentUser">
+        <a matLine routerLink='../stock/list'>Estoque</a>
+        <mat-icon color="primary">explicit</mat-icon>
       </mat-list-item>
       <mat-list-item>
-          <a matLine routerLink='../stock/list'>Estoque</a>
-          <mat-icon color="primary">explicit</mat-icon>
+        <a matLine href="#">Sobre</a>
+        <mat-icon color="primary">help</mat-icon>
       </mat-list-item>
-      <mat-list-item>
-          <a matLine href="#">Sobre</a>
-          <mat-icon color="primary">help</mat-icon>
+      <mat-list-item *ngIf="currentUser">
+        <a matLine (click)="logout()">Sair</a>
+        <mat-icon color="primary">exit_to_app</mat-icon>
       </mat-list-item>
-  </mat-nav-list>
+    </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary" [class.mat-elevation-z6]="true">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="sideToggle(drawer)">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <a mat-button routerLink='../index'>
         <img src="../../assets/images/logo.svg" height="36px" />&nbsp;
         Moda Sem Frescura
       </a>
-      <mat-progress-spinner *ngIf="showLoad$ | async" mode="indeterminate" color="accent" diameter="40" strokeWidth="6"></mat-progress-spinner>
+      <mat-progress-spinner *ngIf="showLoad$ | async" mode="indeterminate" color="accent" diameter="40" strokeWidth="6">
+      </mat-progress-spinner>
     </mat-toolbar>
     <div class="primary-header">
       <h1>{{ title }}</h1>

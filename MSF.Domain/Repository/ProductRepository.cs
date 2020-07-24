@@ -43,10 +43,26 @@ namespace MSF.Domain.Repository
 
             return lazyProducts;
         }
+
+        public async Task<IEnumerable<ProductViewModel>> FindByFilter(string filter)
+        {
+            var query = All().Include(c => c.Subcategory)
+                .Where(x => (x.Description + x.Profit.ToString() + x.Subcategory.Description).Contains(filter ?? string.Empty));
+            
+            return await query.Select(s => new ProductViewModel {
+                Id = s.Id,
+                Description = s.Description,
+                Profit = s.Profit,
+                SubcategoryId = s.SubcategoryId,
+                SubcategoryName = s.Subcategory.Description
+            }).ToListAsync();
+        }
     }
 
     public interface IProductRepository : IBaseRepository<Product>
     {
         Task<LazyProductsViewModel> LazyProductsViewModelAsync(string filter, int take, int skip);
+
+        Task<IEnumerable<ProductViewModel>> FindByFilter(string filter);
     }
 }

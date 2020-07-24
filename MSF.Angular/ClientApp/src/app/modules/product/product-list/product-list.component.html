@@ -23,7 +23,7 @@
         <!-- Profit Column -->
         <ng-container matColumnDef="profit">
             <th mat-header-cell *matHeaderCellDef> % de Lucro </th>
-            <td mat-cell *matCellDef="let element"> {{ element.profit | number:'1.2-2' }} </td>
+            <td mat-cell *matCellDef="let element"> {{ element.profit | number:'1.2-2' | numberFormat }} </td>
         </ng-container>
 
         <ng-container matColumnDef="subcategory">

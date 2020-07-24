@@ -24,6 +24,13 @@ namespace MSF.Api.Controllers.Product
             return Ok(products);
         }
 
+        [HttpGet("Find")]
+        public async Task<IActionResult> LazyProducts(string filter)
+        {
+            var products = await _productService.FindByFilter(filter);
+            return Ok(products);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Domain.Models.Product product)
         {

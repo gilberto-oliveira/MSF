@@ -1,1 +1,66 @@
-<p>stock-list works!</p>
+<button mat-fab color="primary" aria-label="Nova Entrada" (click)="openDialog()">
+    <mat-icon>add</mat-icon>
+</button>
+<button id="btn-export" mat-fab color="warn" matTooltip="Exportar para Excel" aria-label="Exportar para Excel" (click)="exporter.exportTable('xls', { fileName:'Estoque', Props: { Author: 'MSF' }})">
+    <mat-icon>move_to_inbox</mat-icon>
+</button>
+
+<mat-form-field>
+    <mat-label>Filtrar</mat-label>
+    <input matInput placeholder="Ex. Camisa XPTO" #input>
+</mat-form-field>
+
+<div class="mat-elevation-z4">
+
+    <table mat-table matTableExporter hiddenColumns="[5]" [dataSource]="stocks" #exporter="matTableExporter">
+
+        <!-- Date Column -->
+        <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef> Data </th>
+            <td mat-cell *matCellDef="let element"> {{element.date | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
+        </ng-container>
+
+        <!-- ProductName Column -->
+        <ng-container matColumnDef="productName">
+            <th mat-header-cell *matHeaderCellDef> Produto </th>
+            <td mat-cell *matCellDef="let element"> {{element.productName}} </td>
+        </ng-container>
+
+        <!-- UnitPrice Column -->
+        <ng-container matColumnDef="unitPrice">
+            <th mat-header-cell *matHeaderCellDef> Preço </th>
+            <td mat-cell *matCellDef="let element"> R$ {{element.unitPrice | number:'1.2-2' | numberFormat }} </td>
+        </ng-container>
+
+        <!-- Amount Column -->
+        <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef> Quantidade </th>
+            <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+        </ng-container>
+
+        <!-- ProviderName Column -->
+        <ng-container matColumnDef="providerName">
+            <th mat-header-cell *matHeaderCellDef> Fornecedor </th>
+            <td mat-cell *matCellDef="let element"> {{element.providerName}} </td>
+        </ng-container>
+
+        <!-- Options Column -->
+        <ng-container matColumnDef="options">
+            <th mat-header-cell *matHeaderCellDef> Ações </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-icon-button aria-label="Editar Estoque" (click)="openDialog(element)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button aria-label="Estornar Estoque" (click)="confirmDialog(element)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [length]="resultsLength" [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons [pageSize]="pageSize">
+    </mat-paginator>
+</div>

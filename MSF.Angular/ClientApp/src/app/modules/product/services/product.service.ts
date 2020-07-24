@@ -28,4 +28,8 @@ export class ProductService {
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
+
+  find(filter: string): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/Find?filter=${filter}`);
+  }
 }

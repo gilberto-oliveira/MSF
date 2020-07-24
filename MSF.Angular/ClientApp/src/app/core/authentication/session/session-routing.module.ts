@@ -7,7 +7,8 @@ import { LoginComponent } from './login/login.component';
 import { MaterialModule } from './../../../material.module';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: '', redirectTo: 'login', pathMatch: 'full'}
 ];
 
 @NgModule({
