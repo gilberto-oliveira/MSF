@@ -7,7 +7,7 @@ namespace MSF.Api.Controllers.Provider
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     public class ProviderController : ControllerBase
     {
         private readonly IProviderService _providerService;

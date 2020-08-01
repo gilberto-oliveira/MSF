@@ -6,9 +6,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { CategoryFormComponent } from './category-form/category-form.component';
 import { MaterialModule } from './../../material.module';
+import { AuthGuardService } from 'src/app/core/authentication/auth/guards/auth-guard.service';
 
 const routes: Routes = [
-    { path: 'list', component: CategoryListComponent },
+    { path: 'list', component: CategoryListComponent, canActivate: [AuthGuardService] },
     { path: '', redirectTo: 'list', pathMatch: 'full' },
     { path: '**', redirectTo: 'list', pathMatch: 'full' }
 ];

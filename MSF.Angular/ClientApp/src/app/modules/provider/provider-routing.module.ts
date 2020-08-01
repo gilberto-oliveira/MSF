@@ -7,9 +7,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './../../material.module';
 import { ProviderListComponent } from './provider-list/provider-list.component';
 import { ProviderFormComponent } from './provider-form/provider-form.component';
+import { AuthGuardService } from 'src/app/core/authentication/auth/guards/auth-guard.service';
 
 const routes: Routes = [
-    { path: 'list', component: ProviderListComponent },
+    { path: 'list', component: ProviderListComponent, canActivate: [AuthGuardService] },
     { path: '', redirectTo: 'list', pathMatch: 'full' },
     { path: '**', redirectTo: 'list', pathMatch: 'full' }
 ];

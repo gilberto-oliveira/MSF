@@ -49,6 +49,35 @@ namespace MSF.Service.Identity
                 throw new Exception(GetErrosFromResult(operationResult));
         }
 
+        public async Task<LazyUserViewModel> LazyUserViewModelAsync(string filter, int take, int skip)
+        {
+            var query = _userManager.Users
+                .Where(x => (x.Email + x.FirstName + x.LastName + x.UserName).Contains(filter ?? string.Empty));
+
+            var count = await query.CountAsync();
+
+            var user = query.Select(s => new UserViewModel
+            {
+                Id = s.Id,
+                FirstName = s.FirstName,
+                LastName = s.LastName,
+                UserName = s.UserName,
+                Email = s.Email
+            })
+            .OrderBy(o => o.FirstName)
+            .Skip(skip)
+            .Take(take)
+            .ToListAsync();
+
+            var lazyUsersViewModel = new LazyUserViewModel
+            {
+                Count = count,
+                Users = await user
+            };
+
+            return lazyUsersViewModel;
+        }
+
         public async Task ChangePassword(UserChangePasswordViewModel user)
         {
             var userToChange = await _userManager.FindByEmailAsync(user.Email);
@@ -101,53 +130,9 @@ namespace MSF.Service.Identity
             return null;
         }
 
-        public async Task<MSFJwt> RefreshAuthentication(UsersRefreshRequestViewModel userRefreshToken)
-        {
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateAudience = false,
-                ValidateIssuer = false,
-                IssuerSigningKey = _signingConfig.Key,
-                ValidAudience = _jwtConfig.Audience,
-                ValidIssuer = _jwtConfig.Issuer,
-                ValidateIssuerSigningKey = true,
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var principal = tokenHandler.ValidateToken(userRefreshToken.RefreshToken, tokenValidationParameters, out var securityToken);
-
-            if (principal == null)
-                return null;
-
-            var userIdentity = await _userManager.FindByIdAsync(principal.Identity.Name);
-
-            if (userIdentity != null)
-            {
-                return await RefreshToken(userIdentity);
-            }
-
-            return null;
-        }
-
         private async Task<MSFJwt> GetToken(User user)
         {
             var token = await GenerateToken(user, _jwtConfig.AccessTokenExpiration);
-            var refreshToken = await GenerateToken(user, _jwtConfig.RefreshTokenExpiration);
-            return new MSFJwt
-            {
-                Authenticated = true,
-                Token = token,
-                RefreshToken = refreshToken,
-                Message = "OK"
-            };
-        }
-
-        private async Task<MSFJwt> RefreshToken(User user)
-        {
-            var token = await GenerateToken(user, _jwtConfig.AccessTokenExpiration);
-
             return new MSFJwt
             {
                 Authenticated = true,
@@ -214,21 +199,50 @@ namespace MSF.Service.Identity
             await _userManager.UpdateAsync(user);
             _context.SaveChanges();
         }
+
+        public async Task EditUser(UserViewModel user)
+        {
+            var currentUser = await _userManager.Users.FirstOrDefaultAsync(f => f.Id == user.Id);
+
+            currentUser.UserName = user.UserName ?? currentUser.UserName;
+            currentUser.FirstName = user.FirstName ?? currentUser.FirstName;
+            currentUser.LastName = user.LastName ?? currentUser.LastName;
+            currentUser.Email = user.Email ?? currentUser.Email;
+
+            await _userManager.UpdateAsync(currentUser);
+
+            _context.SaveChanges();
+        }
+
+        public async Task<UserViewModel> GetByIdAsync(int userId)
+        {
+            var currentUser = await _userManager.Users.FirstOrDefaultAsync(f => f.Id == userId);
+            return new UserViewModel
+            {
+                Id = currentUser.Id,
+                FirstName = currentUser.FirstName,
+                LastName = currentUser.LastName,
+            };
+        }
     }
 
     public interface IUserService
     {
         Task<MSFJwt> Authenticate(User user);
 
-        Task<MSFJwt> RefreshAuthentication(UsersRefreshRequestViewModel userRefreshToken);
-        
+        Task<LazyUserViewModel> LazyUserViewModelAsync(string filter, int take, int skip);
+
         Task AddAsync(User user);
         
         Task ChangePassword(UserChangePasswordViewModel user);
 
+        Task EditUser(UserViewModel user);
+
         Task<bool> ExistsUser(int id);
 
         Task ResetPassword(int id);
+
+        Task<UserViewModel> GetByIdAsync(int userId);
     }
 
 }

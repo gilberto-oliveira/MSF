@@ -7,7 +7,7 @@ namespace MSF.Api.Controllers.Product
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;

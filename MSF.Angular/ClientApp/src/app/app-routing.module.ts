@@ -7,10 +7,14 @@ import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 import { UnauthorizedComponent } from './core/layout/unauthorized/unauthorized.component';
 import { AuthGuardService } from './core/authentication/auth/guards/auth-guard.service';
+import { AboutComponent } from './core/layout/about/about.component';
 
 registerLocaleData(ptBr);
 
 const routes: Routes = [
+  {
+    path: 'about', component: AboutComponent
+  },
   {
     path: 'unauthorized', component: UnauthorizedComponent, canActivate: [AuthGuardService]
   },
@@ -29,27 +33,31 @@ const routes: Routes = [
   },
   {
     path: 'category', loadChildren: () => import('./modules/category/category.module')
-      .then(m => m.CategoryModule), canActivate: [AuthGuardService]
+      .then(m => m.CategoryModule), data: { permittedRoles: ['Admin'] }
   },
   {
     path: 'provider', loadChildren: () => import('./modules/provider/provider.module')
-      .then(m => m.ProviderModule), canActivate: [AuthGuardService]
+      .then(m => m.ProviderModule), data: { permittedRoles: ['Admin'] }
   },
   {
     path: 'shop', loadChildren: () => import('./modules/shop/shop.module')
-      .then(m => m.ShopModule), canActivate: [AuthGuardService]
+      .then(m => m.ShopModule), data: { permittedRoles: ['Admin'] }
   },
   {
     path: 'work-center', loadChildren: () => import('./modules/work-center/work-center.module')
-      .then(m => m.WorkCenterModule), canActivate: [AuthGuardService]
+      .then(m => m.WorkCenterModule), data: { permittedRoles: ['Admin'] }
   },
   {
     path: 'product', loadChildren: () => import('./modules/product/product.module')
-      .then(m => m.ProductModule), canActivate: [AuthGuardService]
+      .then(m => m.ProductModule), data: { permittedRoles: ['Admin'] }
   },
   {
     path: 'stock', loadChildren: () => import('./modules/stock/stock.module')
-      .then(m => m.StockModule), canActivate: [AuthGuardService]
+      .then(m => m.StockModule), data: { permittedRoles: ['Admin'] }
+  },
+  {
+    path: 'sale', loadChildren: () => import('./modules/sale/sale.module')
+      .then(m => m.SaleModule), data: { permittedRoles: ['Admin', 'Vendedor'] }
   }
 ];
 

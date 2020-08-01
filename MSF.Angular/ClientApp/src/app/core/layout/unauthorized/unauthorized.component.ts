@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { NavigationTitleService } from '../../services/navigation-title.service';
 
 @Component({
   selector: 'app-unauthorized',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UnauthorizedComponent implements OnInit {
 
-  constructor() { }
+  url: string;
+
+  constructor(private router: ActivatedRoute,
+              private titleService: NavigationTitleService) {}
 
   ngOnInit() {
+    this.titleService.setTitle('Acesso Negado');
+    this.router.queryParams.subscribe(params => {
+      this.url = params.returnUrl;
+    });
   }
 
 }

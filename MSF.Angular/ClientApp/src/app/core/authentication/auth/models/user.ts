@@ -1,12 +1,11 @@
 export class User {
     id: number;
     userName: string;
-    password: string;
+    passwordHash: string;
     firstName: string;
     lastName: string;
     email: string;
     token?: string;
-    refreshToken?: string;
     authenticated: boolean;
 }
 

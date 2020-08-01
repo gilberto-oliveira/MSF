@@ -11,7 +11,7 @@ namespace MSF.Api.Controllers.State
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class StateController : ControllerBase
     {
         private readonly IStateService _stateService;

@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Associar Perfil</h1>
+<div mat-dialog-content>
+    <form [formGroup]="roleForm">
+        <mat-form-field appearance="outline">
+            <mat-label>Perfil</mat-label>
+            <mat-select formControlName="roleId" placeholder="Ex. Admin">
+                <mat-option *ngFor="let role of roles | async" [value]="role.id">
+                    {{ role.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Cancelar</button>
+    <button mat-raised-button color="primary" [disabled]="!roleForm.valid" (click)="onSave()">Salvar</button>
+</div>

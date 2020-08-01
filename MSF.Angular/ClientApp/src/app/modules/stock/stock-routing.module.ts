@@ -7,9 +7,10 @@ import { MaterialModule } from './../../material.module';
 import { StockListComponent } from './stock-list/stock-list.component';
 import { StockFormComponent } from './stock-form/stock-form.component';
 import { NgxMaskModule } from 'ngx-mask';
+import { AuthGuardService } from 'src/app/core/authentication/auth/guards/auth-guard.service';
 
 const routes: Routes = [
-    { path: 'list', component: StockListComponent },
+    { path: 'list', component: StockListComponent, canActivate: [AuthGuardService] },
     { path: '', redirectTo: 'list', pathMatch: 'full' },
     { path: '**', redirectTo: 'list', pathMatch: 'full' }
 ];

@@ -23,7 +23,6 @@ using MSF.Service.State;
 using MSF.Service.Stock;
 using MSF.Service.WorkCenter;
 using System;
-using System.Threading.Tasks;
 
 namespace MSF.Api
 {
@@ -44,13 +43,21 @@ namespace MSF.Api
             services.AddDbContext<MSFIdentityDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MSF_DEV")));
 
-            services.AddIdentity<User, Role>()
+            services.AddIdentity<User, Role>(options => {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 5;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+            })
                 .AddEntityFrameworkStores<MSFIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddTransient<IUserService, UserService>();
+
+            services.AddTransient<IRoleService, RoleService>();
 
             services.AddTransient<ICategoryService, CategoryService>();
 
@@ -83,23 +90,14 @@ namespace MSF.Api
             }).AddJwtBearer(options => {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    IssuerSigningKey = signingConfig.Key,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
                     ValidAudience = jwtConfig.Audience,
                     ValidIssuer = jwtConfig.Issuer,
-                    ValidateIssuerSigningKey = true,
-                    ValidateLifetime = true,
+                    IssuerSigningKey = signingConfig.Key,
                     ClockSkew = TimeSpan.Zero
-                };
-                options.Events = new JwtBearerEvents
-                {
-                    OnAuthenticationFailed = context =>
-                    {
-                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException) || context.Exception.GetType() == typeof(SecurityTokenInvalidSignatureException))
-                        {
-                            context.Response.Headers.Add("AccessToken-Expired", "true");
-                        }
-                        return Task.CompletedTask;
-                    }
                 };
             });
 

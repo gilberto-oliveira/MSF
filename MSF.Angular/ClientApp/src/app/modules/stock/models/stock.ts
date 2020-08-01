@@ -1,6 +1,6 @@
 export class Stock {
     id: number;
-    date: Date;
+    date: string;
     productName: string;
     unitPrice: number;
     amount: number;

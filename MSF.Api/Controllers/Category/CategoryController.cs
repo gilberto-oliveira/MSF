@@ -11,7 +11,7 @@ namespace MSF.Api.Controllers.Category
 
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize(Roles="Admin")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;

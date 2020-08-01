@@ -51,15 +51,8 @@ export class NavigationComponent implements OnInit {
     this.getCurrentUser();
   }
 
-  sideToggle(sideNav: MatSidenav) {
-    if (sideNav !== undefined) {
-      sideNav.toggle();
-    }
-  }
-
   private getCurrentUser() {
     this.authenticationService.currentUser.subscribe(u => {
-      console.log(u);
       this.currentUser = u;
       if (this.currentUser && this.currentUser.token) {
         this.userName = (this.helper.decodeToken(this.currentUser.token).sub as string);

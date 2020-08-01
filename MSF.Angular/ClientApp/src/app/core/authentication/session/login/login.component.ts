@@ -41,7 +41,6 @@ export class LoginComponent extends BaseComponent implements OnInit {
     const auth = this.authForm.value;
     this._authService.login(auth.Email, auth.PasswordHash)
       .subscribe(user => {
-        console.log(user);
         this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/index';
         this.router.navigate([this.returnUrl]);
       }, error => {

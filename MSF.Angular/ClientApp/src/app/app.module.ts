@@ -12,6 +12,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { IndexComponent } from './core/layout/index/index.component';
 import { UnauthorizedComponent } from './core/layout/unauthorized/unauthorized.component';
 import { ProgressInterceptor } from './core/interceptors/progress-interceptor';
+import { JwtInterceptorService } from './core/authentication/auth/interceptors/jwt-interceptor.service';
+import { AboutComponent } from './core/layout/about/about.component';
+import { ErrorInterceptorService } from './core/authentication/auth/interceptors/error-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -19,6 +22,7 @@ import { ProgressInterceptor } from './core/interceptors/progress-interceptor';
     IndexComponent,
     NavigationComponent,
     UnauthorizedComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -30,7 +34,9 @@ import { ProgressInterceptor } from './core/interceptors/progress-interceptor';
     AppRoutingModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ProgressInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ProgressInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]
 })

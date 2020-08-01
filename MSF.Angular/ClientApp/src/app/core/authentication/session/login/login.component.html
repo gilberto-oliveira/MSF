@@ -2,12 +2,12 @@
 <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="auth-form">
     <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
-        <input formControlName="Email" matInput placeholder="fulano@email.com" type="email" autofocus>
+        <input formControlName="Email" matInput placeholder="fulano@email.com" type="email" autocomplete="username" autofocus>
         <mat-icon matSuffix>email</mat-icon>
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>Senha</mat-label>
-        <input formControlName="PasswordHash" matInput type="password" placeholder="*******************">
+        <input formControlName="PasswordHash" matInput type="password" placeholder="**********"  autocomplete="current-password">
         <mat-icon matSuffix>lock</mat-icon>
     </mat-form-field>
     <button mat-raised-button color="primary" matTooltip="Fazer Login" [disabled]="!authForm.valid">ENTRAR</button>

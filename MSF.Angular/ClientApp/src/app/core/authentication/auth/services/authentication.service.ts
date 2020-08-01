@@ -32,22 +32,6 @@ export class AuthenticationService {
       }));
   }
 
-  public refresh(): Observable<User> {
-    console.log("Chamada do refresh");
-    const refreshToken = this.currentUserValue.refreshToken;
-
-    return this.http.post<User>(`${environment.apiUrl}/user/refresh`, { refreshToken })
-      .pipe(map((user: User) => {
-        console.log("Retorno do refresh");
-        if (user && user.token) {
-          localStorage.setItem('currentUser', JSON.stringify({ authenticated: user.authenticated, token: user.token, refreshToken: refreshToken }));
-          user.refreshToken = refreshToken;
-          this.currentUserSubject.next(user);
-        }
-        return user;
-      }));
-  }
-
   logout() {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);

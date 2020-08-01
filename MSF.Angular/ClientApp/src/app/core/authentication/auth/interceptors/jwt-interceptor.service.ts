@@ -10,7 +10,6 @@ export class JwtInterceptorService implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         request = request.clone({ url: request.url.replace('http://', 'https://')});
-        // add authorization header with jwt token if available
         const currentUser = this.authenticationService.currentUserValue;
         if (currentUser && currentUser.token) {
             request = request.clone({
@@ -19,7 +18,6 @@ export class JwtInterceptorService implements HttpInterceptor {
                 }
             });
         }
-
         return next.handle(request);
     }
 }

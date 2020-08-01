@@ -6,9 +6,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './../../material.module';
 import { WorkCenterListComponent } from './work-center-list/work-center-list.component';
 import { WorkCenterFormComponent } from './work-center-form/work-center-form.component';
+import { AuthGuardService } from 'src/app/core/authentication/auth/guards/auth-guard.service';
 
 const routes: Routes = [
-    { path: 'list', component: WorkCenterListComponent },
+    { path: 'list', component: WorkCenterListComponent, canActivate: [AuthGuardService] },
     { path: '', redirectTo: 'list', pathMatch: 'full' },
     { path: '**', redirectTo: 'list', pathMatch: 'full' }
 ];

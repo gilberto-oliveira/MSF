@@ -7,7 +7,7 @@ namespace MSF.Api.Controllers.Shop
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     public class ShopController : ControllerBase
     {
         private readonly IShopService _shopService;

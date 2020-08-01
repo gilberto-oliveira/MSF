@@ -27,24 +27,15 @@ namespace MSF.Api.Controllers.Identity
             else return Unauthorized(token);
         }
 
-        [HttpPost("Refresh")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Refresh([FromBody] UsersRefreshRequestViewModel userRefreshToken)
-        {
-            var token = await _userService.RefreshAuthentication(userRefreshToken);
-            if (token != null) return Ok(token);
-            else return Unauthorized(token);
-        }
-
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> Post([FromBody] User user)
         {
             await _userService.AddAsync(user);
             return Created($"/api/user/{user.Id}", new User { FirstName = user.FirstName });
         }
 
-        [HttpPost("ChangePassword")]
+        [HttpPut("ChangePassword")]
         [Authorize]
         public async Task<IActionResult> ChangePassword([FromBody] UserChangePasswordViewModel user)
         {
@@ -53,17 +44,47 @@ namespace MSF.Api.Controllers.Identity
         }
         
         [HttpPut("ResetPassword")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ResetPassword([FromBody] int userId)
+        {
+            var userExists = await _userService.ExistsUser(userId);
+
+            if (!userExists)
+                return NotFound();
+
+            await _userService.ResetPassword(userId);
+
+            return Ok();
+        }
+
+        [HttpGet("Lazy")]
         [Authorize]
-        public async Task<IActionResult> ResetPassword([FromBody] UserViewModel user)
+        public async Task<IActionResult> LazyUsers(string filter, int take, int skip)
+        {
+            var users = await _userService.LazyUserViewModelAsync(filter, take, skip);
+            return Ok(users);
+        }
+
+        [HttpGet("LazyById")]
+        [Authorize]
+        public async Task<IActionResult> LazyById(int userId)
+        {
+            var user = await _userService.GetByIdAsync(userId);
+            return Ok(user);
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Put([FromBody] UserViewModel user)
         {
             var userExists = await _userService.ExistsUser(user.Id);
 
             if (!userExists)
                 return NotFound();
 
-            await _userService.ResetPassword(user.Id);
+            await _userService.EditUser(user);
 
-            return Ok();
+            return Created($"/api/user/{user.Id}", new User { FirstName = user.FirstName });
         }
     }
 }

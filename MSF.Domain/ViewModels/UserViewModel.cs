@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MSF.Domain.ViewModels
 {
@@ -11,7 +12,9 @@ namespace MSF.Domain.ViewModels
         public String Password { get; set; }
         
         public string FirstName { get; set; }
-        
+
+        public string LastName { get; set; }
+
         public string Email { get; set; }
     }
 
@@ -30,4 +33,11 @@ namespace MSF.Domain.ViewModels
 
         public String NewPassword { get; set; }
     }
+
+    public class LazyUserViewModel
+    {
+        public int Count { get; set; }
+        public IList<UserViewModel> Users { get; set; }
+    }
+
 }

@@ -11,7 +11,7 @@ namespace MSF.Api.Controllers.WorkCenter
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     public class WorkCenterController: ControllerBase
     {
         private readonly IWorkCenterService _workCenterService;

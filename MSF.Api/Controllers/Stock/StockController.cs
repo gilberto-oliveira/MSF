@@ -7,7 +7,7 @@ namespace MSF.Api.Controllers.Stock
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     public class StockController : ControllerBase
     {
         private readonly IStockService _stockService;
