@@ -1,7 +1,57 @@
-<mat-vertical-stepper [linear]="isLinear" #stepper>
+<mat-card class="example-card">
+    <mat-card-content>
+        <div class="percent100">
+            <form [formGroup]="saleProcessForm">
+                <mat-form-field class="percent100" appearance="outline">
+                    <mat-label>Loja</mat-label>
+                    <mat-select formControlName="shopId" (selectionChange)="getWorkCenters($event)">
+                        <mat-option *ngFor="let shop of shops | async" [value]="shop.id">
+                            {{shop.description}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field id="select-work-center" class="percent100" appearance="outline">
+                    <mat-label>Caixa</mat-label>
+                    <mat-select formControlName="workCenterId" (selectionChange)="showWorkCenterStatus($event)">
+                        <mat-option *ngFor="let workCenter of workCenters | async" [value]="workCenter">
+                            {{workCenter.code}} - {{workCenter.description}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+        </div>
+        <div id="div-details" class="percent100">
+            <mat-list role="list">
+                <mat-list-item role="listitem">Status:&nbsp;
+                    <mat-chip-list>
+                        <mat-chip [color]="currentWorkCenter.status == 'ABERTO' ? 'primary' : 'warn'" selected>{{currentWorkCenter.status == null ? 'N/A' : currentWorkCenter.status}}</mat-chip>
+                    </mat-chip-list>
+                </mat-list-item>
+                <mat-divider [inset]="true"></mat-divider>
+                <mat-list-item role="listitem">Usuário:&nbsp;
+                    <mat-chip-list>
+                        <mat-chip [color]="currentWorkCenter.status == 'ABERTO' ? 'primary' : 'warn'" selected>{{currentWorkCenter.userName == null || currentWorkCenter.userName == ' ' ? 'N/A' : currentWorkCenter.userName}}</mat-chip>
+                    </mat-chip-list>
+                </mat-list-item>
+                <mat-divider [inset]="true"></mat-divider>
+                <mat-list-item role="listitem">Data:&nbsp;
+                    <mat-chip-list>
+                        <mat-chip [color]="currentWorkCenter.status == 'ABERTO' ? 'primary' : 'warn'" selected>{{currentWorkCenter.date == null ? '00/00/0000 00:00:00' : currentWorkCenter.date | date: 'dd/MM/yyyy HH:mm:ss'}}</mat-chip>
+                    </mat-chip-list>
+                </mat-list-item>
+            </mat-list>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button color="primary" [disabled]="!saleProcessForm.valid || currentWorkCenter.status != 'FECHADO'" (click)="startWorkCenter()">ABRIR CAIXA</button>
+        <button mat-button color="warn" [disabled]="!saleProcessForm.valid || currentWorkCenter.status != 'ABERTO'" (click)="closeWorkCenter()">FECHAR CAIXA</button>
+    </mat-card-actions>
+</mat-card>
+
+<mat-vertical-stepper [linear]="isLinear" #stepper *ngIf="currentWorkCenter.status == 'ABERTO'">
     <mat-step [stepControl]="firstFormGroup">
         <form [formGroup]="firstFormGroup">
-            <ng-template matStepLabel>LOJA E CAIXA</ng-template>
+            <ng-template matStepLabel>PRODUTOS</ng-template>
             <mat-form-field>
                 <mat-label>Name</mat-label>
                 <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
@@ -13,23 +63,15 @@
     </mat-step>
     <mat-step [stepControl]="secondFormGroup">
         <form [formGroup]="secondFormGroup">
-            <ng-template matStepLabel>PRODUTOS</ng-template>
+            <ng-template matStepLabel>PAGAMENTO</ng-template>
             <mat-form-field>
                 <mat-label>Address</mat-label>
                 <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
             </mat-form-field>
             <div>
                 <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
+                <button mat-button (click)="stepper.reset()">Reset</button>
             </div>
         </form>
-    </mat-step>
-    <mat-step>
-        <ng-template matStepLabel>PAGAMENTO</ng-template>
-        <p>You are now done.</p>
-        <div>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button (click)="stepper.reset()">Reset</button>
-        </div>
     </mat-step>
 </mat-vertical-stepper>

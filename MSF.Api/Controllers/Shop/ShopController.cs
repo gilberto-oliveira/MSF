@@ -24,6 +24,20 @@ namespace MSF.Api.Controllers.Shop
             return Ok(shops);
         }
 
+        [HttpGet("FindByUserRole")]
+        public async Task<IActionResult> FindByUserRole(int userId, int roleId)
+        {
+            var shops = await _shopService.FindShopsByUserRoleAsync(userId, roleId);
+            return Ok(shops);
+        }
+
+        [HttpGet("FindByCurrentUser")]
+        public async Task<IActionResult> FindByCurrentUser()
+        {
+            var shops = await _shopService.FindShopsByCurrentUserAsync();
+            return Ok(shops);
+        }
+
         [HttpGet("Find")]
         public async Task<IActionResult> FindShops(string filter)
         {

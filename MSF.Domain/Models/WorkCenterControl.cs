@@ -14,6 +14,8 @@ namespace MSF.Domain.Models
 
         public int WorkCenterId { get; set; }
 
+        public int UserId { get; set; }
+
         public DateTime StartDate { get; set; }
 
         public DateTime? FinalDate { get; set; }

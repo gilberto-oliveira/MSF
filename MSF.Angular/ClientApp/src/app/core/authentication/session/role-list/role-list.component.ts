@@ -11,6 +11,7 @@ import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog
 import { ActivatedRoute } from '@angular/router';
 import { RoleFormComponent } from '../role-form/role-form.component';
 import { UserService } from '../services/user.service';
+import { RoleShopComponent } from './../role-shop/role-shop.component';
 
 @Component({
   selector: 'app-role-list',
@@ -50,6 +51,19 @@ export class RoleListComponent extends BaseComponent implements AfterViewInit, O
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.getLazy('', this.pageSize);
+      }
+    });
+  }
+
+  openShopDialog(roleId: number) {
+    const dialogRef = this.dialog.open(RoleShopComponent, {
+      disableClose: true,
+      data: { userId : +this.userId, roleId : roleId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log([ this.userId, roleId ])
       }
     });
   }

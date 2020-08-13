@@ -32,7 +32,21 @@ namespace MSF.Api.Controllers.WorkCenter
         public async Task<IActionResult> Post([FromBody] Domain.Models.WorkCenter workCenter)
         {
             await _workCenterService.AddAsync(workCenter);
-            return Created($"/api/provider/{workCenter.Id}", new Domain.Models.WorkCenter { Id = workCenter.Id });
+            return Created($"/api/workcenter/{workCenter.Id}", new Domain.Models.WorkCenter { Id = workCenter.Id });
+        }
+
+        [HttpPost("Start")]
+        public async Task<IActionResult> Start([FromBody] int id)
+        {
+            await _workCenterService.StartAsync(id);
+            return Created($"/api/workcenter/{id}", new Domain.Models.WorkCenter { Id = id });
+        }
+
+        [HttpPost("Close")]
+        public async Task<IActionResult> Close([FromBody] int id)
+        {
+            await _workCenterService.CloseAsync(id);
+            return Created($"/api/workcenter/{id}", new Domain.Models.WorkCenter { Id = id });
         }
 
         [HttpPut]
@@ -53,6 +67,13 @@ namespace MSF.Api.Controllers.WorkCenter
             await _workCenterService.DeleteAsync(workCenter);
 
             return Ok();
+        }
+
+        [HttpGet("FindByShop")]
+        public async Task<IActionResult> FindByShop(int shopId)
+        {
+            var workCenters = await _workCenterService.FindByShopAsync(shopId);
+            return Ok(workCenters);
         }
     }
 }

@@ -21,11 +21,23 @@ export class WorkCenterService {
     return this.http.post(`${this.baseUrl}`, workcenter);
   }
 
+  start(id: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/Start`, id);
+  }
+
+  close(id: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/Close`, id);
+  }
+
   edit(workcenter: WorkCenter): Observable<any> {
     return this.http.put(`${this.baseUrl}`, workcenter);
   }
 
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
+  }
+
+  findByShop(shopId: number): Observable<WorkCenter[]> {
+    return this.http.get<any>(`${this.baseUrl}/FindByShop?shopId=${shopId}`);
   }
 }

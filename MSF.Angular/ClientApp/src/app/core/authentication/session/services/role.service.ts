@@ -28,7 +28,15 @@ export class RoleService {
     return this.http.post<any>(`${this.baseUrl}/Create`, { userId, roleId });
   }
 
+  createUserRoleShop(userId: number, roleId: number, shopId: number): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/CreateUserRoleShop`, { userId, roleId, shopId });
+  }
+
   delete(userId: number, roleId: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/Delete/?userId=${userId}&roleId=${roleId}`);
+  }
+
+  deleteUserRoleShop(userId: number, roleId: number, shopId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/DeleteUserRoleShop/?userId=${userId}&roleId=${roleId}&shopId=${shopId}`);
   }
 }

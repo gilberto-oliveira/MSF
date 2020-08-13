@@ -56,6 +56,10 @@ namespace MSF.Common
     public enum MSFEnumDefaults
     {
         [StringValue("Msf+123")]
-        Password
+        Password,
+        [StringValue("ABERTO")]
+        OpenedWorkCenter,
+        [StringValue("FECHADO")]
+        ClosedWorkCenter
     }
 }

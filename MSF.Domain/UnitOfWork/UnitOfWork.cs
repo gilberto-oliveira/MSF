@@ -23,6 +23,8 @@ namespace MSF.Domain.UnitOfWork
 
         private IStockRepository _stockRepository;
 
+        private IWorkCenterControlRepository _workCenterControlRepository;
+
         private readonly IMSFDbContext _context;
 
         private bool _disposed;
@@ -43,6 +45,8 @@ namespace MSF.Domain.UnitOfWork
         public IShopRepository ShopRepository => _shopRepository ?? (_shopRepository = new ShopRepository(_context));
 
         public IWorkCenterRepository WorkCenterRepository => _workCenterRepository ?? (_workCenterRepository = new WorkCenterRepository(_context));
+        
+        public IWorkCenterControlRepository WorkCenterControlRepository => _workCenterControlRepository ?? (_workCenterControlRepository = new WorkCenterControlRepository(_context));
         
         public IProductRepository ProductRepository => _productRepository ?? (_productRepository = new ProductRepository(_context));
         
@@ -96,6 +100,8 @@ namespace MSF.Domain.UnitOfWork
         IProductRepository ProductRepository { get; }
 
         IStockRepository StockRepository { get; }
+
+        IWorkCenterControlRepository WorkCenterControlRepository { get; }
 
         int? UserId { get; }
 

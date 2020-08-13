@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MSF.Domain.ViewModels
 {
@@ -13,6 +14,14 @@ namespace MSF.Domain.ViewModels
         public string Code { get; set; }
 
         public string ShopName { get; set; }
+
+        public string UserName { get; set; }
+
+        public int? UserId { get; set; }
+
+        public DateTime? Date { get; set; }
+
+        public string Status { get; set; }
     }
 
     public class LazyWorkCentersViewModel

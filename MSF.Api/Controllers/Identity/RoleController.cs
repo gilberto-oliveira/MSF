@@ -52,5 +52,19 @@ namespace MSF.Api.Controllers.Identity
             await _roleService.DeleteUserRole(userId, roleId);
             return Ok();
         }
+
+        [HttpPost("CreateUserRoleShop")]
+        public async Task<IActionResult> CreateUserRoleShop(UserRoleShop userRoleShop)
+        {
+            await _roleService.CreateUserRoleShop(userRoleShop.UserId, userRoleShop.RoleId, userRoleShop.ShopId);
+            return Ok();
+        }
+
+        [HttpDelete("DeleteUserRoleShop")]
+        public async Task<IActionResult> DeleteUserRoleShop(int userId, int roleId, int shopId)
+        {
+            await _roleService.DeleteUserRoleShop(userId, roleId, shopId);
+            return Ok();
+        }
     }
 }

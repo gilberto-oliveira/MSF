@@ -104,6 +104,20 @@ namespace MSF.Service.Identity
             await _identityContext.SaveChangesAsync();
         }
 
+        public async Task CreateUserRoleShop(int userId, int roleId, int shopId)
+        {
+            var userRoleShop = new UserRoleShop
+            {
+                UserId = userId,
+                RoleId = roleId,
+                ShopId = shopId
+            };
+
+            await _identityContext.UserRoleShops.AddAsync(userRoleShop);
+
+            await _identityContext.SaveChangesAsync();
+        }
+
         public async Task DeleteUserRole(int userId, int roleId)
         {
             var userRole = await _identityContext.UserRoles.FirstOrDefaultAsync(u => u.RoleId == roleId && u.UserId == userId);
@@ -111,6 +125,18 @@ namespace MSF.Service.Identity
             if (userRole != null)
             {
                 _identityContext.UserRoles.Remove(userRole);
+
+                await _identityContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task DeleteUserRoleShop(int userId, int roleId, int shopId)
+        {
+            var userRoleShop = await _identityContext.UserRoleShops.FirstOrDefaultAsync(u => u.RoleId == roleId && u.UserId == userId && u.ShopId == shopId);
+
+            if (userRoleShop != null)
+            {
+                _identityContext.UserRoleShops.Remove(userRoleShop);
 
                 await _identityContext.SaveChangesAsync();
             }
@@ -123,6 +149,8 @@ namespace MSF.Service.Identity
         Task<LazyRoleViewModel> LazyRolesByUser(int userId, int take, int skip, string nameFilter = null);
         Task<List<RoleViewModel>> GetRolesWithoutUser(int userId);
         Task CreateUserRole(int userId, int roleId);
+        Task CreateUserRoleShop(int userId, int roleId, int shopId);
         Task DeleteUserRole(int userId, int roleId);
+        Task DeleteUserRoleShop(int userId, int roleId, int shopId);
     }
 }

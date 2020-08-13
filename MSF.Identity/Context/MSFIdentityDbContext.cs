@@ -8,6 +8,8 @@ namespace MSF.Identity.Context
     public class MSFIdentityDbContext : IdentityDbContext<User, Role,
         int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
     {
+        public DbSet<UserRoleShop> UserRoleShops { get; set; }
+
         public MSFIdentityDbContext(DbContextOptions<MSFIdentityDbContext> options) : base(options)
         { }
 
@@ -35,6 +37,8 @@ namespace MSF.Identity.Context
             builder.ApplyConfiguration(new RoleClaimMap());
 
             builder.ApplyConfiguration(new UserRoleMap());
+
+            builder.ApplyConfiguration(new UserRoleShopMap());
         }
     }
 }

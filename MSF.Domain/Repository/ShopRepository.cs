@@ -54,6 +54,16 @@ namespace MSF.Domain.Repository
             })
             .ToListAsync();
         }
+
+        public async Task<List<ShopViewModel>> AllByViewModelAsync()
+        {
+            return await All().Select(s => new ShopViewModel
+            {
+                Id = s.Id,
+                Code = s.Code,
+                Description = s.Description
+            }).ToListAsync();
+        }
     }
 
     public interface IShopRepository : IBaseRepository<Shop>
@@ -61,5 +71,8 @@ namespace MSF.Domain.Repository
         Task<LazyShopsViewModel> LazyShopsViewModelAsync(string filter, int take, int skip);
 
         Task<List<ShopViewModel>> FindShopsViewModelAsync(string filter);
+
+        Task<List<ShopViewModel>> AllByViewModelAsync();
+
     }
 }

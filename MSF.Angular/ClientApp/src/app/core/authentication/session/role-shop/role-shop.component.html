@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Associar Lojas</h1>
+<div mat-dialog-content>
+    <ul>
+        <li *ngFor="let shop of shops">
+            <mat-checkbox [checked]="shop.used" (change)="change($event.checked, shop.id)">{{shop.description}}</mat-checkbox>
+        </li>
+    </ul>
+</div>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Cancelar</button>
+</div>

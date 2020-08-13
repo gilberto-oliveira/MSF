@@ -39,23 +39,38 @@
         <a matLine routerLink='../about'>Sobre</a>
         <mat-icon color="primary">help</mat-icon>
       </mat-list-item>
-      <mat-list-item *ngIf="currentUser">
-        <a matLine (click)="logout()">Sair</a>
-        <mat-icon color="primary">exit_to_app</mat-icon>
-      </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary" [class.mat-elevation-z6]="true">
-      <button *ngIf="isHandset$ | async" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+      <button *ngIf="isHandset$ | async" type="button" aria-label="Toggle sidenav" mat-icon-button
+        (click)="drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <a mat-button [routerLink]="!currentUser ? '../user/login' : '../index'">
+      <a id="btn-current-user" mat-button [routerLink]="!currentUser ? '../user/login' : '../index'">
         <img src="../../assets/images/logo.svg" height="36px" />&nbsp;
         <span *ngIf="currentUser">Olá, {{ fullUserName }}</span>
         <span *ngIf="!currentUser">Moda Sem Frescura</span>
       </a>
-      <mat-progress-spinner *ngIf="showLoad$ | async" mode="indeterminate" color="accent" diameter="40" strokeWidth="6"></mat-progress-spinner>
+      <div>
+        <mat-progress-spinner *ngIf="showLoad$ | async" mode="indeterminate" color="accent" diameter="40"
+          strokeWidth="6"></mat-progress-spinner>
+      </div>
+      <div id="right-btn" *ngIf="currentUser">
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu do Usuário">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>settings</mat-icon>
+            <span>Alterar Senha</span>
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Sair</span>
+          </button>
+        </mat-menu>
+      </div>
     </mat-toolbar>
     <div class="primary-header">
       <h1>{{ title }}</h1>

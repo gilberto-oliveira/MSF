@@ -32,4 +32,12 @@ export class ShopService {
   find(filter: string): Observable<Shop[]> {
     return this.http.get<Shop[]>(`${this.baseUrl}/Find?filter=${filter}`);
   }
+
+  findByUserRole(userId: number, roleId: number): Observable<Shop[]> {
+    return this.http.get<Shop[]>(`${this.baseUrl}/FindByUserRole?userId=${userId}&roleId=${roleId}`);
+  }
+
+  findByCurrentUser(): Observable<Shop[]> {
+    return this.http.get<Shop[]>(`${this.baseUrl}/FindByCurrentUser`);
+  }
 }

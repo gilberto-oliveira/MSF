@@ -4,4 +4,7 @@ export class WorkCenter {
     code: string;
     description: string;
     shopName: string;
+    status: string;
+    date: string;
+    userName: string;
 }

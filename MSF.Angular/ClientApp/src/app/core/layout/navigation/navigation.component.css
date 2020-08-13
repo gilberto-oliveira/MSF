@@ -36,3 +36,13 @@
 .current-user {
   left: 0;
 }
+
+#right-btn {
+  width: 100%;
+  text-align: right;
+}
+
+#btn-current-user {
+  width: 16em !important;
+  min-width: unset !important;
+}
