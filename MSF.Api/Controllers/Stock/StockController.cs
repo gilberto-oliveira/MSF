@@ -51,5 +51,25 @@ namespace MSF.Api.Controllers.Stock
             return Ok();
         }
 
+        [HttpGet("FindProviderByFilterAndProduct")]
+        public async Task<IActionResult> FindProviderByFilterAndProduct(string filter, int productId)
+        {
+            var providers = await _stockService.FindProviderByFilterAndProduct(filter, productId);
+            return Ok(providers);
+        }
+
+        [HttpGet("FindProductByFilter")]
+        public async Task<IActionResult> FindProductByFilter(string filter)
+        {
+            var products = await _stockService.FindProductByFilter(filter);
+            return Ok(products);
+        }
+
+        [HttpGet("FindTotalPriceByProductAndProvider")]
+        public async Task<IActionResult> FindTotalPriceByProductAndProvider(int productId, int providerId)
+        {
+            var totalPrice = await _stockService.FindTotalPriceByProductAndProvider(productId, providerId);
+            return Ok(totalPrice);
+        }
     }
 }

@@ -58,6 +58,10 @@ const routes: Routes = [
   {
     path: 'sale', loadChildren: () => import('./modules/sale/sale.module')
       .then(m => m.SaleModule), data: { permittedRoles: ['Admin', 'Vendedor'] }
+  },
+  {
+    path: 'dashboard', loadChildren: () => import('./modules/dashboard/dashboard.module')
+      .then(m => m.DashboardModule), data: { permittedRoles: ['Admin', 'Vendedor'] }
   }
 ];
 

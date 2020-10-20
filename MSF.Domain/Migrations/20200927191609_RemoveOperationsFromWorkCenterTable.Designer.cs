@@ -4,14 +4,16 @@ using MSF.Domain.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MSF.Domain.Migrations
 {
     [DbContext(typeof(MSFDbContext))]
-    partial class MSFDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200927191609_RemoveOperationsFromWorkCenterTable")]
+    partial class RemoveOperationsFromWorkCenterTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

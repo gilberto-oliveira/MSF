@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MSF.Domain.Models;
 using MSF.Domain.UnitOfWork;
 using MSF.Domain.ViewModels;
 using MSF.Identity.Models;
@@ -26,7 +25,7 @@ namespace MSF.Service.WorkCenter
 
             if (currentUserID.HasValue)
             {
-                var workCenterControl = new WorkCenterControl { WorkCenterId = id, UserId = currentUserID.Value, StartDate = DateTime.Now };
+                var workCenterControl = new Domain.Models.WorkCenterControl { WorkCenterId = id, UserId = currentUserID.Value, StartDate = DateTime.Now };
                 _unit.WorkCenterControlRepository.Add(workCenterControl);
             }
 
@@ -92,9 +91,11 @@ namespace MSF.Service.WorkCenter
 
             return await _unit.CommitChangesAsync();
         }
+
+        
     }
 
-    public interface IWorkCenterService
+    public interface IWorkCenterService: IBaseService
     {
         Task<LazyWorkCentersViewModel> LazyWorkCentersViewModelAsync(string filter, int take, int skip);
 

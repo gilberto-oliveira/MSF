@@ -24,6 +24,7 @@ namespace MSF.Domain.ViewModels
         public string Status { get; set; }
     }
 
+
     public class LazyWorkCentersViewModel
     {
         public IEnumerable<WorkCenterViewModel> WorkCenters { get; set; }

@@ -1,0 +1,11 @@
+<h3>TOTAL: R$ {{ totalPrice }}</h3>
+<h4>Formas de Pagamento</h4>
+<form [formGroup]="paymentForm">
+    <mat-radio-group formControlName="paymentMethod" required>
+        <mat-radio-button value="1">Dinheiro</mat-radio-button>
+    </mat-radio-group>
+    <div>
+        <button mat-button matStepperPrevious>VOLTAR</button>&nbsp;&nbsp;&nbsp;
+        <button mat-button color="primary" (click)="finishSaleProcess()" [disabled]="!paymentForm.valid">FINALIZAR</button>
+    </div>
+</form>

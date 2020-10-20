@@ -16,12 +16,14 @@ using MSF.Identity.Context;
 using MSF.Identity.Models;
 using MSF.Service.Category;
 using MSF.Service.Identity;
+using MSF.Service.Operation;
 using MSF.Service.Product;
 using MSF.Service.Provider;
 using MSF.Service.Shop;
 using MSF.Service.State;
 using MSF.Service.Stock;
 using MSF.Service.WorkCenter;
+using MSF.Service.WorkCenterControl;
 using System;
 
 namespace MSF.Api
@@ -69,9 +71,13 @@ namespace MSF.Api
 
             services.AddTransient<IWorkCenterService, WorkCenterService>();
 
+            services.AddTransient<IWorkCenterControlService, WorkCenterControlService>();
+
             services.AddTransient<IProductService, ProductService>();
 
             services.AddTransient<IStockService, StockService>();
+
+            services.AddTransient<IOperationService, OperationService>();
 
             var signingConfig = new SigningConfig();
 

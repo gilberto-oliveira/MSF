@@ -7,7 +7,6 @@ namespace MSF.Domain.Models
         public WorkCenter()
         {
             WorkCenterControls = new List<WorkCenterControl>();
-            Operations = new List<Operation>();
         }
 
         public int Id { get; set; }
@@ -21,7 +20,5 @@ namespace MSF.Domain.Models
         public Shop Shop { get; set; }
 
         public IList<WorkCenterControl> WorkCenterControls { get; set; }
-
-        public IList<Operation> Operations { get; set; }
     }
 }

@@ -35,6 +35,10 @@
         <a matLine routerLink='../sale/process'>Vendas</a>
         <mat-icon color="primary">monetization_on</mat-icon>
       </mat-list-item>
+      <mat-list-item *ngIf="currentUser">
+        <a matLine routerLink='../dashboard/index'>Dashboards</a>
+        <mat-icon color="primary">assessment</mat-icon>
+      </mat-list-item>
       <mat-list-item>
         <a matLine routerLink='../about'>Sobre</a>
         <mat-icon color="primary">help</mat-icon>

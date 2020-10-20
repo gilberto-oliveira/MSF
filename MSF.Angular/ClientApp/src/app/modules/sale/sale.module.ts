@@ -3,7 +3,7 @@ import { SaleRoutingModule } from './sale-routing.module';
 
 @NgModule({
   imports: [
-  SaleRoutingModule
-  ]
+    SaleRoutingModule
+  ],
 })
 export class SaleModule { }

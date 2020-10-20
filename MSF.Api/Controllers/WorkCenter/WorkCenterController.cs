@@ -75,5 +75,6 @@ namespace MSF.Api.Controllers.WorkCenter
             var workCenters = await _workCenterService.FindByShopAsync(shopId);
             return Ok(workCenters);
         }
+
     }
 }

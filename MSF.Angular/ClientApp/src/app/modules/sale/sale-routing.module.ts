@@ -7,6 +7,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './../../material.module';
 import { AuthGuardService } from 'src/app/core/authentication/auth/guards/auth-guard.service';
 import { SaleProcessComponent } from './sale-process/sale-process.component';
+import { SaleProcessFormComponent } from './sale-process-form/sale-process-form.component';
+import { SaleProcessProductComponent } from './sale-process-product/sale-process-product.component';
+import { SaleProcessPaymentComponent } from './sale-process-payment/sale-process-payment.component';
 
 const routes: Routes = [
     { path: 'process', component: SaleProcessComponent, canActivate: [AuthGuardService] },
@@ -16,7 +19,10 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        SaleProcessComponent
+        SaleProcessComponent,
+        SaleProcessFormComponent,
+        SaleProcessProductComponent, 
+        SaleProcessPaymentComponent
     ],
     imports: [
         CommonModule,
@@ -28,6 +34,7 @@ const routes: Routes = [
     ],
     exports: [RouterModule],
     entryComponents: [
+        SaleProcessFormComponent
     ]
 })
 export class SaleRoutingModule { }

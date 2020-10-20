@@ -62,4 +62,12 @@ namespace MSF.Common
         [StringValue("FECHADO")]
         ClosedWorkCenter
     }
+
+    public enum MSFEnumOperationType
+    {
+        [StringValue("AddCart", "A")]
+        AddCart,
+        [StringValue("Sale", "S")]
+        Sale
+    }
 }
