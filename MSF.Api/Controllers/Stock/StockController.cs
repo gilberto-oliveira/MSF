@@ -7,7 +7,6 @@ namespace MSF.Api.Controllers.Stock
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class StockController : ControllerBase
     {
         private readonly IStockService _stockService;
@@ -18,6 +17,7 @@ namespace MSF.Api.Controllers.Stock
         }
 
         [HttpGet("Lazy")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> LazyProviders(string filter, int take, int skip)
         {
             var providers = await _stockService.LazyStocksViewModelAsync(filter, take, skip);
@@ -25,6 +25,7 @@ namespace MSF.Api.Controllers.Stock
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post([FromBody] Domain.Models.Stock stock)
         {
             await _stockService.AddAsync(stock);
@@ -32,6 +33,7 @@ namespace MSF.Api.Controllers.Stock
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Put([FromBody] Domain.Models.Stock stock)
         {
             await _stockService.UpdateAsync(stock);
@@ -39,6 +41,7 @@ namespace MSF.Api.Controllers.Stock
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var stock = await _stockService.FindAsync(id);
@@ -52,6 +55,7 @@ namespace MSF.Api.Controllers.Stock
         }
 
         [HttpGet("FindProviderByFilterAndProduct")]
+        [Authorize(Roles = "Admin, Vendedor")]
         public async Task<IActionResult> FindProviderByFilterAndProduct(string filter, int productId)
         {
             var providers = await _stockService.FindProviderByFilterAndProduct(filter, productId);
@@ -59,6 +63,7 @@ namespace MSF.Api.Controllers.Stock
         }
 
         [HttpGet("FindProductByFilter")]
+        [Authorize(Roles = "Admin, Vendedor")]
         public async Task<IActionResult> FindProductByFilter(string filter)
         {
             var products = await _stockService.FindProductByFilter(filter);
@@ -66,6 +71,7 @@ namespace MSF.Api.Controllers.Stock
         }
 
         [HttpGet("FindTotalPriceByProductAndProvider")]
+        [Authorize(Roles = "Admin, Vendedor")]
         public async Task<IActionResult> FindTotalPriceByProductAndProvider(int productId, int providerId)
         {
             var totalPrice = await _stockService.FindTotalPriceByProductAndProvider(productId, providerId);

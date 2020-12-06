@@ -14,8 +14,8 @@
 </form>
 <br />
 <p>
-    <a mat-button color="primary" href="#">Esqueceu a Senha?</a><br /><br />
-    <button mat-raised-button color="warn" matTooltip="Entrar com Google">
+    <button mat-button color="primary" (click)="openDialog()">Novo Usuário</button><br /><br />
+    <button mat-raised-button color="warn" matTooltip="Entrar com Google" (click)="signInWithGoogle()">
         <img src="../../../../../assets/images/google-plus.svg" height="20px" />&nbsp;
         Entrar com Google
     </button>

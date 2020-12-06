@@ -10,7 +10,6 @@ namespace MSF.Api.Controllers.WorkCenterControl
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class WorkCenterControlController : ControllerBase
     {
         private readonly IWorkCenterControlService _workCenterControlService;
@@ -21,6 +20,7 @@ namespace MSF.Api.Controllers.WorkCenterControl
         }
 
         [HttpGet("LazyOpenedByWorkCenter")]
+        [Authorize(Roles = "Admin, Vendedor")]
         public async Task<IActionResult> LazyOpenedByWorkCenter(int workCenterId)
         {
             var workCenterControl = await _workCenterControlService.LazyOpenedByWorkCenterAsync(workCenterId);
@@ -28,6 +28,7 @@ namespace MSF.Api.Controllers.WorkCenterControl
         }
 
         [HttpPut("FinishSaleProcess")]
+        [Authorize(Roles = "Admin, Vendedor")]
         public async Task<IActionResult> FinishSaleProcess([FromBody] int workCenterId)
         {
             await _workCenterControlService.FinishSaleProcessAsync(workCenterId);

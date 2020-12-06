@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/shared/components/base-component';
 import { NavigationTitleService } from 'src/app/core/services/navigation-title.service';
 import { AuthenticationService } from '../../auth/services/authentication.service';
+import { AuthService } from "angularx-social-login";
+import { GoogleLoginProvider } from "angularx-social-login";
+import { UserFormComponent } from './../user-form/user-form.component';
 
 @Component({
   selector: 'app-login',
@@ -19,14 +22,28 @@ export class LoginComponent extends BaseComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private router: Router,
     protected _snackBar: MatSnackBar,
-    protected snackBar: MatSnackBar,
     private _authService: AuthenticationService,
     private route: ActivatedRoute,
-    protected _titleService: NavigationTitleService) {
-      super(snackBar, _titleService);
+    protected _titleService: NavigationTitleService,
+    private _oAuthService: AuthService,
+    public dialog: MatDialog) {
+      super(_snackBar, _titleService);
       if (this._authService.currentUserValue) {
         this.router.navigate(['/index']);
       }
+  }
+
+  openDialog(user: any = null) {
+    const dialogRef = this.dialog.open(UserFormComponent, {
+      disableClose: true,
+      data: user
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+      }
+    });
   }
 
   ngOnInit() {
@@ -46,6 +63,26 @@ export class LoginComponent extends BaseComponent implements OnInit {
       }, error => {
         this.openSnackBarTop(`Erro: ${error.message}`, 'LOGIN');
       });
+  }
+
+  signInWithGoogle(): void {
+    this._oAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user => {
+      this.loginWithOAuth(user.firstName, user.lastName, user.email, user.idToken);
+    });
+  }
+
+  private loginWithOAuth(firstName: string, lastName: string, email: string, password: string) {
+    this._authService.loginWithOAuth(firstName, lastName, email, password)
+      .subscribe(_ => {
+        this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/index';
+        this.router.navigate([this.returnUrl]);
+      }, error => {
+        this.openSnackBarTop(`Erro: ${error.message}`, 'LOGIN');
+      });
+  }
+
+  signOut(): void {
+    this._oAuthService.signOut();
   }
 
   ngOnDestroy() {

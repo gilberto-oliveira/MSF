@@ -36,6 +36,9 @@ namespace MSF.Service.Product
 
         public Task<IEnumerable<ProductViewModel>> FindByFilter(string filter) =>
             _unit.ProductRepository.FindByFilter(filter);
+
+        public Task<LazyProductStatsViewModel> LazyProductStatsViewModelAsync(string filter, int take, int skip) =>
+            _unit.ProductRepository.LazyProductStatsViewModelAsync(filter, take, skip);
     }
 
     public interface IProductService
@@ -51,5 +54,7 @@ namespace MSF.Service.Product
         Task<Domain.Models.Product> FindAsync(int? id);
 
         Task<IEnumerable<ProductViewModel>> FindByFilter(string filter);
+
+        Task<LazyProductStatsViewModel> LazyProductStatsViewModelAsync(string filter, int take, int skip);
     }
 }

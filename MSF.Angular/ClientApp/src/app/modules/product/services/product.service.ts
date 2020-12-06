@@ -32,4 +32,8 @@ export class ProductService {
   find(filter: string): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.baseUrl}/Find?filter=${filter}`);
   }
+
+  getLazyStats(filter: string, take: number, skip: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/LazyStats?filter=${filter}&take=${take}&skip=${skip}`);
+  }
 }

@@ -7,8 +7,9 @@ import { LoadingService } from '../../services/loading.service';
 import { User } from '../../authentication/auth/models/user';
 import { AuthenticationService } from '../../authentication/auth/services/authentication.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { MatSidenav } from '@angular/material';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { UserChangePasswordComponent } from 'src/app/shared/components/user-change-password/user-change-password.component';
 
 @Component({
   selector: 'app-navigation',
@@ -42,7 +43,8 @@ export class NavigationComponent implements OnInit {
     private titleService: NavigationTitleService,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private progressService: LoadingService) { }
+    private progressService: LoadingService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.titleService.title.subscribe(updatedTitle => {
@@ -64,5 +66,18 @@ export class NavigationComponent implements OnInit {
   logout() {
     this.authenticationService.logout();
     this.router.navigate(['/user/login']);
+  }
+
+  openRecoveryDialog(user: any = null) {
+    const dialogRef = this.dialog.open(UserChangePasswordComponent, {
+      disableClose: true,
+      data: user
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+      }
+    });
   }
 }

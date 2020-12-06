@@ -31,4 +31,11 @@ namespace MSF.Domain.ViewModels
 
         public int Count { get; set; }
     }
+
+    public class WorkCenterStats
+    {
+        public string WorkCenterName { get; set; }
+
+        public decimal Sale { get; set; }
+    }
 }

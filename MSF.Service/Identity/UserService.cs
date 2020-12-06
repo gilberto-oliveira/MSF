@@ -87,7 +87,7 @@ namespace MSF.Service.Identity
 
             var operationResult = await _userManager.ChangePasswordAsync(userToChange, user.CurrentPassword, user.NewPassword);
 
-            if(operationResult.Errors.Any(a => a.Code.Equals("PasswordMismatch")))
+            if (operationResult.Errors.Any(a => a.Code.Equals("PasswordMismatch")))
                 throw new Exception("Senha atual incorreta, tente novamente.");
 
             if (!operationResult.Succeeded)
@@ -221,28 +221,73 @@ namespace MSF.Service.Identity
             {
                 Id = currentUser.Id,
                 FirstName = currentUser.FirstName,
-                LastName = currentUser.LastName,
+                LastName = currentUser.LastName
             };
         }
+
+        public UserViewModel GetById(int userId)
+        {
+            var currentUser = _userManager.Users.FirstOrDefault(f => f.Id == userId);
+            return new UserViewModel
+            {
+                Id = currentUser.Id,
+                FirstName = currentUser.FirstName,
+                LastName = currentUser.LastName,
+                UserName = currentUser.UserName
+            };
+        }
+
+        public async Task<MSFJwt> AuthenticateWithOAuth(User user)
+        {
+            try
+            {
+                SetUserName(user);
+
+                var userIdentity = await _userManager.FindByEmailAsync(user.Email);
+
+                if (userIdentity != null)
+                {
+                    return await GetToken(userIdentity);
+                }
+                else
+                {
+                    await AddAsync(user);
+                    return await GetToken(user);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        private void SetUserName(User user)
+        {
+            user.UserName = user.UserName ?? user.Email.Split("@")[0];
+        }
+
     }
+}
 
-    public interface IUserService
-    {
-        Task<MSFJwt> Authenticate(User user);
+public interface IUserService
+{
+    Task<MSFJwt> Authenticate(User user);
 
-        Task<LazyUserViewModel> LazyUserViewModelAsync(string filter, int take, int skip);
+    Task<MSFJwt> AuthenticateWithOAuth(User user);
 
-        Task AddAsync(User user);
-        
-        Task ChangePassword(UserChangePasswordViewModel user);
+    Task<LazyUserViewModel> LazyUserViewModelAsync(string filter, int take, int skip);
 
-        Task EditUser(UserViewModel user);
+    Task AddAsync(User user);
 
-        Task<bool> ExistsUser(int id);
+    Task ChangePassword(UserChangePasswordViewModel user);
 
-        Task ResetPassword(int id);
+    Task EditUser(UserViewModel user);
 
-        Task<UserViewModel> GetByIdAsync(int userId);
-    }
+    Task<bool> ExistsUser(int id);
 
+    Task ResetPassword(int id);
+
+    Task<UserViewModel> GetByIdAsync(int userId);
+
+    UserViewModel GetById(int userId);
 }

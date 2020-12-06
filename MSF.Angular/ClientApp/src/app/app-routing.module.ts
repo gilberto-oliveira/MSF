@@ -8,6 +8,8 @@ import ptBr from '@angular/common/locales/pt';
 import { UnauthorizedComponent } from './core/layout/unauthorized/unauthorized.component';
 import { AuthGuardService } from './core/authentication/auth/guards/auth-guard.service';
 import { AboutComponent } from './core/layout/about/about.component';
+import { UserChangePasswordComponent } from './shared/components/user-change-password/user-change-password.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 registerLocaleData(ptBr);
 
@@ -67,15 +69,19 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    UserChangePasswordComponent
   ],
   exports: [RouterModule],
   imports: [
     RouterModule.forRoot(routes),
-    MaterialModule
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   entryComponents: [
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    UserChangePasswordComponent
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt' }]
 })

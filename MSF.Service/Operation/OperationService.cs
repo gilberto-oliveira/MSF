@@ -1,21 +1,35 @@
 ﻿using MSF.Domain.UnitOfWork;
 using MSF.Domain.ViewModels;
 using MSF.Service.Base;
+using MSF.Service.Identity;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MSF.Service.Operation
 {
     public class OperationService : BaseService, IOperationService
     {
-        public OperationService(IUnitOfWork unit) : base(unit) { }
+        private readonly IUserService _userService;
+
+        public OperationService(IUnitOfWork unit, IUserService userService) : base(unit) 
+        {
+            _userService = userService;
+        }
 
         public async Task<int> AddAsync(Domain.Models.Operation operation)
         {
             await ValidadeOperation(operation);
+            AddUserToOperation(operation);
             _unit.OperationRepository.Add(operation);
             await UpdateStockOnInsert(operation);
             return await _unit.CommitChangesAsync();
+        }
+
+        private void AddUserToOperation(Domain.Models.Operation operation)
+        {
+            operation.UserId = _unit.UserId ?? 0;
         }
 
         private async Task ValidadeOperation(Domain.Models.Operation operation)
@@ -128,6 +142,21 @@ namespace MSF.Service.Operation
 
         public Task<decimal> FindTotalPriceByWorkCenterControlAndTypeAsync(int workCenterControlId, string type)
         => _unit.OperationRepository.FindTotalPriceByWorkCenterControlAndTypeAsync(workCenterControlId, type);
+
+        public async Task<List<SaleByUserViewModel>> GetSalesByUser()
+        {
+            var salesByUser = await _unit.OperationRepository.GetSalesByUser();
+            
+            salesByUser.ForEach((sale) => {
+                var user = _userService.GetById(sale.UserId);
+                sale.UserName = user != null ? user.UserName : "N/A";
+            });
+
+            return salesByUser;
+        }
+
+        public Task<List<SaleByCategoryViewModel>> GetSalesByCategory() 
+            => _unit.OperationRepository.GetSalesByCategory();
     }
 
     public interface IOperationService
@@ -143,5 +172,9 @@ namespace MSF.Service.Operation
         Task<Domain.Models.Operation> FindAsync(int? id);
 
         Task<decimal> FindTotalPriceByWorkCenterControlAndTypeAsync(int workCenterControlId, string type);
+
+        Task<List<SaleByUserViewModel>> GetSalesByUser();
+
+        Task<List<SaleByCategoryViewModel>> GetSalesByCategory();
     }
 }

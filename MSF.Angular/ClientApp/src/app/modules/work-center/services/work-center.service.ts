@@ -40,5 +40,9 @@ export class WorkCenterService {
   findByShop(shopId: number): Observable<WorkCenter[]> {
     return this.http.get<any>(`${this.baseUrl}/FindByShop?shopId=${shopId}`);
   }
-    
+
+  getStats(): Observable<any[]> {
+    return this.http.get<any>(`${this.baseUrl}/GetStats`);
+  }
+   
 }

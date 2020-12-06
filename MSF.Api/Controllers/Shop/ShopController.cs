@@ -7,7 +7,6 @@ namespace MSF.Api.Controllers.Shop
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class ShopController : ControllerBase
     {
         private readonly IShopService _shopService;
@@ -18,6 +17,7 @@ namespace MSF.Api.Controllers.Shop
         }
 
         [HttpGet("Lazy")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> LazyShops(string filter, int take, int skip)
         {
             var shops = await _shopService.LazyShopsViewModelAsync(filter, take, skip);
@@ -25,6 +25,7 @@ namespace MSF.Api.Controllers.Shop
         }
 
         [HttpGet("FindByUserRole")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> FindByUserRole(int userId, int roleId)
         {
             var shops = await _shopService.FindShopsByUserRoleAsync(userId, roleId);
@@ -32,6 +33,7 @@ namespace MSF.Api.Controllers.Shop
         }
 
         [HttpGet("FindByCurrentUser")]
+        [Authorize(Roles = "Admin, Vendedor")]
         public async Task<IActionResult> FindByCurrentUser()
         {
             var shops = await _shopService.FindShopsByCurrentUserAsync();
@@ -39,6 +41,7 @@ namespace MSF.Api.Controllers.Shop
         }
 
         [HttpGet("Find")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> FindShops(string filter)
         {
             var shops = await _shopService.FindShopsViewModelAsync(filter);
@@ -46,6 +49,7 @@ namespace MSF.Api.Controllers.Shop
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post([FromBody] Domain.Models.Shop shop)
         {
             await _shopService.AddAsync(shop);
@@ -53,6 +57,7 @@ namespace MSF.Api.Controllers.Shop
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Put([FromBody] Domain.Models.Shop shop)
         {
             await _shopService.UpdateAsync(shop);
@@ -60,6 +65,7 @@ namespace MSF.Api.Controllers.Shop
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var shop = await _shopService.FindAsync(id);

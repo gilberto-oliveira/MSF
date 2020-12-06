@@ -92,7 +92,8 @@ namespace MSF.Service.WorkCenter
             return await _unit.CommitChangesAsync();
         }
 
-        
+        public Task<List<WorkCenterStats>> GetWorkCenterStatsAsync() =>
+            _unit.WorkCenterRepository.GetWorkCenterStatsAsync();
     }
 
     public interface IWorkCenterService: IBaseService
@@ -112,5 +113,7 @@ namespace MSF.Service.WorkCenter
         Task<List<WorkCenterViewModel>> FindByShopAsync(int shopId);
 
         Task<int> CloseAsync(int id);
+
+        Task<List<WorkCenterStats>> GetWorkCenterStatsAsync();
     }
 }

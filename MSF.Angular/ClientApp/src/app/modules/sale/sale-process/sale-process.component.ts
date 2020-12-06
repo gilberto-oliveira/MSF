@@ -24,6 +24,7 @@ export class SaleProcessComponent extends BaseComponent implements OnInit {
   workCenters: Observable<WorkCenter[]>;
   shops: Observable<Shop[]>;
   workCenterControl: WorkCenterControl;
+  workCenter: WorkCenter;
 
   constructor(protected snackBar: MatSnackBar,
     protected _titleService: NavigationTitleService,
@@ -47,8 +48,8 @@ export class SaleProcessComponent extends BaseComponent implements OnInit {
   }
 
   startWorkCenter() {
-    if (this.workCenterControl) {
-      const id = this.workCenterControl.workCenterId;
+    if (this.workCenter) {
+      const id = this.workCenter.id;
       this._workCenterService.start(id)
         .subscribe(() => {
           this.openSnackBarBottom('Caixa aberto com sucesso!', 'VENDAS');
@@ -59,7 +60,7 @@ export class SaleProcessComponent extends BaseComponent implements OnInit {
   }
 
   closeWorkCenter() {
-    if (this.workCenterControl) {
+    if (this.workCenterControl && this.workCenter) {
       const id = this.workCenterControl.workCenterId;
       this._workCenterService.close(id)
         .subscribe(() => {
@@ -80,8 +81,8 @@ export class SaleProcessComponent extends BaseComponent implements OnInit {
   }
 
   showWorkCenterStatus(event: MatSelectChange) {
-    const workCenter = event.value as WorkCenter;
-    this._workCenterControlService.lazyOpenedByWorkCenterId(workCenter.id)
+    this.workCenter = event.value as WorkCenter;
+    this._workCenterControlService.lazyOpenedByWorkCenterId(this.workCenter.id)
       .subscribe((wcc) => {
         this.workCenterControl = wcc;
       });

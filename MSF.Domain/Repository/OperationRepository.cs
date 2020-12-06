@@ -66,6 +66,42 @@ namespace MSF.Domain.Repository
                 .Select(s => s.UnitPrice * s.Amount).SumAsync();
             return Math.Round(query, 2);
         }
+
+        public async Task<List<SaleByUserViewModel>> GetSalesByUser()
+        {
+            var query = All()
+                .Select(s => new
+                {
+                    s.UserId,
+                    Sale = s.UnitPrice * s.Amount,
+                }).GroupBy(g => g.UserId);
+
+            return await query.Select(s => new SaleByUserViewModel
+            {
+                UserId = s.Key,
+                Sale = s.Sum(s0 => s0.Sale)
+            }).ToListAsync();
+        }
+
+        public async Task<List<SaleByCategoryViewModel>> GetSalesByCategory()
+        {
+            var query = await All()
+                .Join(Context.Products, op => op.ProductId, p => p.Id, (op, p) => new { op, p })
+                .Join(Context.Subcategories, j1 => j1.p.SubcategoryId, s => s.Id, (j1, s) => new { j1.op, j1.p, s })
+                .Join(Context.Categories, j2 => j2.s.CategoryId, c => c.Id, (j2, c) => new { j2.op, j2.p, j2.s, c })
+                .Select(s => new {
+                    Category = s.c.Description + " -> " + s.s.Description,
+                    Sale = s.op.UnitPrice * s.op.Amount,
+                })
+                .GroupBy(g => g.Category)
+                .Select(s => new SaleByCategoryViewModel
+                {
+                    Category = s.Key,
+                    Sale = s.Sum(s1 => s1.Sale)
+                }).ToListAsync();
+
+            return query;
+        }
     }
 
     public interface IOperationRepository : IBaseRepository<Operation>
@@ -77,5 +113,9 @@ namespace MSF.Domain.Repository
         Task<Operation> FindByProductAndProvider(int id, int productId, int providerId);
 
         Task<decimal> FindTotalPriceByWorkCenterControlAndTypeAsync(int workCenterControlId, string type);
+
+        Task<List<SaleByUserViewModel>> GetSalesByUser();
+
+        Task<List<SaleByCategoryViewModel>> GetSalesByCategory();
     }
 }

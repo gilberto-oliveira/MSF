@@ -29,7 +29,7 @@ const routes: Routes = [
     RoleShopComponent
   ],
   imports: [
-    CommonModule,
+  CommonModule,
     MaterialModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule,

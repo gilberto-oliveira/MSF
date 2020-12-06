@@ -57,11 +57,40 @@ namespace MSF.Domain.Repository
                 SubcategoryName = s.Subcategory.Description
             }).ToListAsync();
         }
+
+        public async Task<LazyProductStatsViewModel> LazyProductStatsViewModelAsync(string filter, int take, int skip)
+        {
+            var query = Context.Operations
+                    .Include(c => c.Product).Where(o => o.Product.Description.Contains(filter ?? string.Empty)).GroupBy(g => g.Product)
+                .Select(s => new ProductStatsViewModel
+                {
+                    ProductName = s.Key.Description,
+                    Sale = s.Sum(s1 => s1.Amount * s1.UnitPrice),
+                    SalePercent = ((decimal) s.Sum(s1 => s1.Amount) /
+                        (decimal) (Context.Stocks.Where(e => e.ProductId == s.Key.Id).Sum(s1 => s1.Amount) + s.Sum(s1 => s1.Amount))) * 100,
+                    Profit = s.Sum(s1 => s1.Amount * s1.UnitPrice) - s.Sum(s1 => s1.Amount * Context.Stocks.FirstOrDefault(e => e.ProductId == s.Key.Id && e.ProviderId == s1.ProviderId).UnitPrice)
+                });
+
+            var count = await query.CountAsync();
+
+            var lazyProducts = new LazyProductStatsViewModel
+            {
+                ProductStats = await query
+                    .Skip(skip)
+                    .Take(take)
+                    .ToListAsync(),
+                Count = count
+            };
+
+            return lazyProducts;
+        }
     }
 
     public interface IProductRepository : IBaseRepository<Product>
     {
         Task<LazyProductsViewModel> LazyProductsViewModelAsync(string filter, int take, int skip);
+
+        Task<LazyProductStatsViewModel> LazyProductStatsViewModelAsync(string filter, int take, int skip);
 
         Task<IEnumerable<ProductViewModel>> FindByFilter(string filter);
     }

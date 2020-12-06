@@ -63,6 +63,23 @@ namespace MSF.Domain.Repository
 
             return await shops.ToListAsync();
         }
+
+        public async Task<List<WorkCenterStats>> GetWorkCenterStatsAsync()
+        {
+            return await Context.Operations
+                .Join(Context.WorkCenterControls, op => op.WorkCenterControlId, wcc => wcc.Id, (op, wcc) => new { op, wcc })
+                .Join(Context.WorkCenters, j1 => j1.wcc.WorkCenterId, wc => wc.Id, (j1, wc) => new { j1.op, j1.wcc, wc })
+                .Select(s => new
+                {
+                    WorkCenter = s.wc.Code + " - " + s.wc.Description,
+                    Sale = s.op.UnitPrice * s.op.Amount,
+                }).GroupBy(g => g.WorkCenter)
+                .Select(s => new WorkCenterStats
+                {
+                    WorkCenterName = s.Key,
+                    Sale = s.Sum(s1 => s1.Sale)
+                }).ToListAsync();
+        }
     }
 
     public interface IWorkCenterRepository : IBaseRepository<WorkCenter>
@@ -70,5 +87,7 @@ namespace MSF.Domain.Repository
         Task<LazyWorkCentersViewModel> LazyWorkCentersViewModelAsync(string filter, int take, int skip);
 
         Task<List<WorkCenterViewModel>> FindByShopAsync(int shopId);
+
+        Task<List<WorkCenterStats>> GetWorkCenterStatsAsync();
     }
 }

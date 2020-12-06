@@ -49,4 +49,13 @@ export class AuthenticationService {
     });
     return isMatch;
   }
+
+  loginWithOAuth(firstName: string, lastName: string, email: string, passwordHash: string) {
+    return this.http.post<any>(`${environment.apiUrl}/user/LoginWithOAuth`, { firstName, lastName, email, passwordHash })
+      .pipe(map(user => {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+        return user;
+      }));
+  }
 }

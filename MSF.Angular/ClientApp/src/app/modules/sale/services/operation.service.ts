@@ -36,4 +36,12 @@ export class OperationService {
   findTotalPriceByWorkCenterControlAndType(workCenterControlId: number, type: string): Observable<number> {
     return this.http.get<number>(`${this.baseUrl}/FindTotalPriceByWorkCenterControlAndType?workCenterControlId=${workCenterControlId}&type=${type}`);
   }
+
+  getSalesByUser(): Observable<any> {
+    return this.http.get<Operation>(`${this.baseUrl}/getSalesByUser`);
+  }
+
+  getSalesByCategory(): Observable<any> {
+    return this.http.get<Operation>(`${this.baseUrl}/getSalesByCategory`);
+  }
 }

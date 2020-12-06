@@ -7,7 +7,7 @@ namespace MSF.Api.Controllers.Operation
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Vendedor")]
     public class OperationController : ControllerBase
     {
         private readonly IOperationService _operationService;
@@ -63,6 +63,20 @@ namespace MSF.Api.Controllers.Operation
         {
             var totalPrice = await _operationService.FindTotalPriceByWorkCenterControlAndTypeAsync(workCenterControlId, type);
             return Ok(totalPrice);
+        }
+
+        [HttpGet("GetSalesByUser")]
+        public async Task<IActionResult> GetSalesByUser()
+        {
+            var salesByUser = await _operationService.GetSalesByUser();
+            return Ok(salesByUser);
+        }
+
+        [HttpGet("GetSalesByCategory")]
+        public async Task<IActionResult> GetSalesByCategory()
+        {
+            var salesByCategory = await _operationService.GetSalesByCategory();
+            return Ok(salesByCategory);
         }
     }
 }

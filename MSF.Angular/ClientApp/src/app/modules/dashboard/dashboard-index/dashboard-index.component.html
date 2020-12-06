@@ -1,1 +1,51 @@
-<p>dashboard-index works!</p>
+<div class="mat-elevation-z3">
+
+    <table mat-table matTableExporter [dataSource]="productStats" #exporter="matTableExporter">
+        <!-- sale Column -->
+        <ng-container matColumnDef="sale">
+            <th mat-header-cell *matHeaderCellDef> Vendas (R$) </th>
+            <td mat-cell *matCellDef="let element"> {{element.sale | number:'1.2-2' | numberFormat}} </td>
+        </ng-container>
+
+        <!-- salePercent Column -->
+        <ng-container matColumnDef="salePercent">
+            <th mat-header-cell *matHeaderCellDef> Vendas (%) </th>
+            <td mat-cell *matCellDef="let element"> {{element.salePercent | number:'1.2-2' | numberFormat}} </td>
+        </ng-container>
+
+        <!-- profit Column -->
+        <ng-container matColumnDef="profit">
+            <th mat-header-cell *matHeaderCellDef> Lucro (R$) </th>
+            <td mat-cell *matCellDef="let element"> {{element.profit | number:'1.2-2' | numberFormat}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+
+<br>
+
+<mat-card>
+    <div [chart]="chart"></div>
+</mat-card>
+
+<br>
+
+<mat-card>
+    <div [chart]="salesPerWorkCenterChart"></div>
+</mat-card>
+
+<br>
+
+<mat-card>
+    <div [chart]="salesPerUserChart"></div>
+</mat-card>
+
+<br>
+
+<mat-card>
+    <div [chart]="salesPerCategoryChart"></div>
+</mat-card>
+
+<br>

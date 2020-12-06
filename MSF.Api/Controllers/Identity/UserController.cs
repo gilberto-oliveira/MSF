@@ -27,8 +27,17 @@ namespace MSF.Api.Controllers.Identity
             else return Unauthorized(token);
         }
 
+        [HttpPost("LoginWithOAuth")]
+        [AllowAnonymous]
+        public async Task<IActionResult> LoginWithOAuth([FromBody] User user)
+        {
+            var token = await _userService.AuthenticateWithOAuth(user);
+            if (token != null) return Ok(token);
+            else return Unauthorized(token);
+        }
+
         [HttpPost]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody] User user)
         {
             await _userService.AddAsync(user);
@@ -36,7 +45,7 @@ namespace MSF.Api.Controllers.Identity
         }
 
         [HttpPut("ChangePassword")]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> ChangePassword([FromBody] UserChangePasswordViewModel user)
         {
             await _userService.ChangePassword(user);

@@ -7,7 +7,6 @@ namespace MSF.Api.Controllers.Product
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -18,6 +17,7 @@ namespace MSF.Api.Controllers.Product
         }
 
         [HttpGet("Lazy")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> LazyProducts(string filter, int take, int skip)
         {
             var products = await _productService.LazyProductsViewModelAsync(filter, take, skip);
@@ -25,6 +25,7 @@ namespace MSF.Api.Controllers.Product
         }
 
         [HttpGet("Find")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> LazyProducts(string filter)
         {
             var products = await _productService.FindByFilter(filter);
@@ -32,6 +33,7 @@ namespace MSF.Api.Controllers.Product
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post([FromBody] Domain.Models.Product product)
         {
             await _productService.AddAsync(product);
@@ -39,6 +41,7 @@ namespace MSF.Api.Controllers.Product
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Put([FromBody] Domain.Models.Product product)
         {
             await _productService.UpdateAsync(product);
@@ -46,6 +49,7 @@ namespace MSF.Api.Controllers.Product
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _productService.FindAsync(id);
@@ -56,6 +60,14 @@ namespace MSF.Api.Controllers.Product
             await _productService.DeleteAsync(product);
 
             return Ok();
+        }
+
+        [HttpGet("LazyStats")]
+        [Authorize(Roles = "Admin, Vendedor")]
+        public async Task<IActionResult> LazyProductStats(string filter, int take, int skip)
+        {
+            var products = await _productService.LazyProductStatsViewModelAsync(filter, take, skip);
+            return Ok(products);
         }
     }
 }

@@ -36,4 +36,22 @@ namespace MSF.Domain.ViewModels
 
         public int Count { get; set; }
     }
+
+    public class SaleByUserViewModel
+    {
+        public int UserId { get; set; }
+
+        public string UserName { get; set; }
+
+        public decimal Sale { get; set; }
+    }
+
+    public class SaleByCategoryViewModel
+    {
+        public int CategoryId { get; set; }
+
+        public string Category { get; set; }
+
+        public decimal Sale { get; set; }
+    }
 }

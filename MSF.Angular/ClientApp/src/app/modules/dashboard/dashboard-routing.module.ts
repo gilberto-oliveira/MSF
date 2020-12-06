@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './../../material.module';
 import { AuthGuardService } from 'src/app/core/authentication/auth/guards/auth-guard.service';
 import { DashboardIndexComponent } from './dashboard-index/dashboard-index.component';
+import { ChartModule } from 'angular-highcharts';
 
 const routes: Routes = [
     { path: 'index', component: DashboardIndexComponent, canActivate: [AuthGuardService] },
@@ -20,7 +21,8 @@ const routes: Routes = [
         CommonModule,
         RouterModule.forChild(routes),
         HttpClientModule,
-        MaterialModule
+        MaterialModule,
+        ChartModule
     ],
     exports: [RouterModule],
 })

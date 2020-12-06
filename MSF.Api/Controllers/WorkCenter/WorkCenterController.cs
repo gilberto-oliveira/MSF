@@ -11,7 +11,6 @@ namespace MSF.Api.Controllers.WorkCenter
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class WorkCenterController: ControllerBase
     {
         private readonly IWorkCenterService _workCenterService;
@@ -22,6 +21,7 @@ namespace MSF.Api.Controllers.WorkCenter
         }
 
         [HttpGet("Lazy")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> LazyWorkCenters(string filter, int take, int skip)
         {
             var workCenters = await _workCenterService.LazyWorkCentersViewModelAsync(filter, take, skip);
@@ -29,6 +29,7 @@ namespace MSF.Api.Controllers.WorkCenter
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post([FromBody] Domain.Models.WorkCenter workCenter)
         {
             await _workCenterService.AddAsync(workCenter);
@@ -36,6 +37,7 @@ namespace MSF.Api.Controllers.WorkCenter
         }
 
         [HttpPost("Start")]
+        [Authorize(Roles = "Admin, Vendedor")]
         public async Task<IActionResult> Start([FromBody] int id)
         {
             await _workCenterService.StartAsync(id);
@@ -43,6 +45,7 @@ namespace MSF.Api.Controllers.WorkCenter
         }
 
         [HttpPost("Close")]
+        [Authorize(Roles = "Admin, Vendedor")]
         public async Task<IActionResult> Close([FromBody] int id)
         {
             await _workCenterService.CloseAsync(id);
@@ -50,6 +53,7 @@ namespace MSF.Api.Controllers.WorkCenter
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Put([FromBody] Domain.Models.WorkCenter workCenter)
         {
             await _workCenterService.UpdateAsync(workCenter);
@@ -57,6 +61,7 @@ namespace MSF.Api.Controllers.WorkCenter
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var workCenter = await _workCenterService.FindAsync(id);
@@ -70,11 +75,19 @@ namespace MSF.Api.Controllers.WorkCenter
         }
 
         [HttpGet("FindByShop")]
+        [Authorize(Roles = "Admin, Vendedor")]
         public async Task<IActionResult> FindByShop(int shopId)
         {
             var workCenters = await _workCenterService.FindByShopAsync(shopId);
             return Ok(workCenters);
         }
 
+        [HttpGet("GetStats")]
+        [Authorize(Roles = "Admin, Vendedor")]
+        public async Task<IActionResult> GetStatsAsync()
+        {
+            var workCenters = await _workCenterService.GetWorkCenterStatsAsync();
+            return Ok(workCenters);
+        }
     }
 }

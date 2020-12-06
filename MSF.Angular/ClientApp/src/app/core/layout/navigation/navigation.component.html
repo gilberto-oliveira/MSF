@@ -65,7 +65,7 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
+          <button mat-menu-item (click)="openRecoveryDialog()">
             <mat-icon>settings</mat-icon>
             <span>Alterar Senha</span>
           </button>
