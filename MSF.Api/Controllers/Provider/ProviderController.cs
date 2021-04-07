@@ -7,7 +7,6 @@ namespace MSF.Api.Controllers.Provider
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class ProviderController : ControllerBase
     {
         private readonly IProviderService _providerService;
@@ -18,6 +17,7 @@ namespace MSF.Api.Controllers.Provider
         }
 
         [HttpGet("Lazy")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> LazyProviders(string filter, int take, int skip)
         {
             var providers = await _providerService.LazyProvidersViewModelAsync(filter, take, skip);
@@ -25,6 +25,7 @@ namespace MSF.Api.Controllers.Provider
         }
 
         [HttpGet("Find")]
+        [Authorize(Roles = "Admin, Estoque")]
         public async Task<IActionResult> FindByFilter(string filter)
         {
             var providers = await _providerService.FindByFilter(filter);
@@ -32,6 +33,7 @@ namespace MSF.Api.Controllers.Provider
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post([FromBody] Domain.Models.Provider provider)
         {
             await _providerService.AddAsync(provider);
@@ -39,6 +41,7 @@ namespace MSF.Api.Controllers.Provider
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Put([FromBody] Domain.Models.Provider provider)
         {
             await _providerService.UpdateAsync(provider);
@@ -46,6 +49,7 @@ namespace MSF.Api.Controllers.Provider
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var provider = await _providerService.FindAsync(id);

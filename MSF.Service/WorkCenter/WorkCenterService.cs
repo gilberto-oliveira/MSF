@@ -69,7 +69,7 @@ namespace MSF.Service.WorkCenter
                 ShopId = s.ShopId,
                 Status = s.Status,
                 UserId = s.UserId,
-                UserName = _userManager.Users.FirstOrDefault(u => u.Id == s.UserId)?.FirstName + " " + _userManager.Users.FirstOrDefault(u => u.Id == s.UserId)?.LastName
+                UserName = _userManager?.Users.FirstOrDefault(u => u.Id == s.UserId)?.FirstName + " " + _userManager?.Users.FirstOrDefault(u => u.Id == s.UserId)?.LastName
             }).ToList();
         }
 

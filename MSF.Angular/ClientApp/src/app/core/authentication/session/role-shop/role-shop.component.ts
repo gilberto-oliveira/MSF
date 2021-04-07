@@ -5,8 +5,6 @@ import { NavigationTitleService } from 'src/app/core/services/navigation-title.s
 import { ShopService } from 'src/app/modules/shop/services/shop.service';
 import { FormBuilder } from '@angular/forms';
 import { Shop } from 'src/app/modules/shop/models/shop';
-import { catchError } from 'rxjs/operators';
-import { of as observableOf } from 'rxjs';
 import { RoleService } from './../services/role.service';
 
 @Component({
@@ -36,9 +34,8 @@ export class RoleShopComponent extends BaseComponent implements OnInit {
     this._shopService.findByUserRole(this.userRole.userId, this.userRole.roleId)
       .subscribe(data => {
         this.shops = data;
-      }),
-      catchError(() => {
-        return observableOf([]);
+      }, error => {
+        this.openSnackBarTop(`${error.detail}`, 'ASSOCIAR LOJA');
       });
   }
 
@@ -49,7 +46,7 @@ export class RoleShopComponent extends BaseComponent implements OnInit {
           this.openSnackBarBottom('Loja associada com sucesso', 'ASSOCIAR LOJA');
           this.findShopsByUserRole();
         }, error => {
-          this.openSnackBarTop(`Erro ao associar: ${error.message}`, 'ASSOCIAR LOJA');
+          this.openSnackBarTop(`${error.detail}`, 'ASSOCIAR LOJA');
         });
     } else {
       this._roleService.deleteUserRoleShop(this.userRole.userId, this.userRole.roleId, shopId)
@@ -57,7 +54,7 @@ export class RoleShopComponent extends BaseComponent implements OnInit {
           this.openSnackBarBottom('Loja desassociada com sucesso', 'ASSOCIAR LOJA');
           this.findShopsByUserRole();
         }, error => {
-          this.openSnackBarTop(`Erro ao associar: ${error.message}`, 'ASSOCIAR LOJA');
+          this.openSnackBarTop(`${error.detail}`, 'ASSOCIAR LOJA');
         });
     }
   }

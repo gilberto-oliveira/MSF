@@ -51,11 +51,11 @@ const routes: Routes = [
   },
   {
     path: 'product', loadChildren: () => import('./modules/product/product.module')
-      .then(m => m.ProductModule), data: { permittedRoles: ['Admin'] }
+      .then(m => m.ProductModule), data: { permittedRoles: ['Admin', 'Estoque'] }
   },
   {
     path: 'stock', loadChildren: () => import('./modules/stock/stock.module')
-      .then(m => m.StockModule), data: { permittedRoles: ['Admin'] }
+      .then(m => m.StockModule), data: { permittedRoles: ['Admin', 'Estoque'] }
   },
   {
     path: 'sale', loadChildren: () => import('./modules/sale/sale.module')

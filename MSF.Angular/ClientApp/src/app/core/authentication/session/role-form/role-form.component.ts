@@ -5,7 +5,6 @@ import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NavigationTitleService } from 'src/app/core/services/navigation-title.service';
 import { RoleService } from '../services/role.service';
 import { BaseComponent } from 'src/app/shared/components/base-component';
-import { filter, tap, debounceTime, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-role-form',
@@ -40,7 +39,7 @@ export class RoleFormComponent extends BaseComponent implements OnInit {
         this.openSnackBarBottom('Perfil associado com sucesso!', 'PERFIS');
         this.dialogRef.close(true);
       }, error => {
-        this.openSnackBarTop(`Erro ao associar: ${error.message}`, 'PERFIS');
+        this.openSnackBarTop(`${error.detail}`, 'PERFIS');
       });
   }
 

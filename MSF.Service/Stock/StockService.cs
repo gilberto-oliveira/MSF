@@ -45,7 +45,7 @@ namespace MSF.Service.Stock
         {
             var product = _unit.ProductRepository.Find(productId);
             var currentStock = await _unit.StockRepository.FindAvailableByProductAndProvider(productId, providerId);
-            return (currentStock != null) ? Math.Round((currentStock.UnitPrice * product.Profit) / 100, 2) : 0;
+            return (currentStock != null) ? Math.Round((currentStock.UnitPrice * product.Profit) / 100, 2) + currentStock.UnitPrice : 0;
         }
     }
 

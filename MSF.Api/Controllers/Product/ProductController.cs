@@ -17,7 +17,7 @@ namespace MSF.Api.Controllers.Product
         }
 
         [HttpGet("Lazy")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Estoque")]
         public async Task<IActionResult> LazyProducts(string filter, int take, int skip)
         {
             var products = await _productService.LazyProductsViewModelAsync(filter, take, skip);
@@ -25,7 +25,7 @@ namespace MSF.Api.Controllers.Product
         }
 
         [HttpGet("Find")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Estoque")]
         public async Task<IActionResult> LazyProducts(string filter)
         {
             var products = await _productService.FindByFilter(filter);
@@ -33,7 +33,7 @@ namespace MSF.Api.Controllers.Product
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Estoque")]
         public async Task<IActionResult> Post([FromBody] Domain.Models.Product product)
         {
             await _productService.AddAsync(product);
@@ -41,7 +41,7 @@ namespace MSF.Api.Controllers.Product
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Estoque")]
         public async Task<IActionResult> Put([FromBody] Domain.Models.Product product)
         {
             await _productService.UpdateAsync(product);
@@ -49,7 +49,7 @@ namespace MSF.Api.Controllers.Product
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Estoque")]
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _productService.FindAsync(id);

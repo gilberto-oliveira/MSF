@@ -52,7 +52,7 @@ export class UserFormComponent extends BaseComponent implements AfterViewInit, O
           this.openSnackBarBottom('Usuário editado com sucesso!', 'USUÁRIOS');
           this.dialogRef.close(true);
         }, error => {
-          this.openSnackBarTop(`Erro ao editar usuário: ${error.message}`, 'USUÁRIOS');
+          this.openSnackBarTop(`${error.detail}`, 'USUÁRIOS');
         });
     } else {
       user.userName = user.email.split('@')[0];
@@ -61,7 +61,7 @@ export class UserFormComponent extends BaseComponent implements AfterViewInit, O
           this.openSnackBarBottom('Usuário criado com sucesso!', 'USUÁRIOS');
           this.dialogRef.close(true);
         }, error => {
-          this.openSnackBarTop(`Erro ao criar usuário: ${error.message}`, 'USUÁRIOS');
+          this.openSnackBarTop(`${error.detail}`, 'USUÁRIOS');
         });
     }
   }

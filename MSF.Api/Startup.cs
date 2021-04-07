@@ -116,6 +116,8 @@ namespace MSF.Api
             services.AddCors();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.ConfigureProblemDetailsModelState();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -136,6 +138,8 @@ namespace MSF.Api
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().WithExposedHeaders("AccessToken-Expired"));
 
             app.UseAuthentication();
+
+            app.UseProblemDetailsExceptionHandler();
 
             app.UseMvc();
         }

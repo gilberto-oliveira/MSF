@@ -72,7 +72,7 @@ export class SaleProcessFormComponent extends BaseComponent implements AfterView
           this.openSnackBarBottom('Operação editada com sucesso!', 'OPERAÇÕES');
           this.dialogRef.close(true);
         }, error => {
-          this.openSnackBarTop(`Erro ao editar operação: ${error.message}`, 'OPERAÇÕES');
+          this.openSnackBarTop(`${error.detail}`, 'OPERAÇÕES');
         });
     } else {
     this._operationService.create(operation)
@@ -80,7 +80,7 @@ export class SaleProcessFormComponent extends BaseComponent implements AfterView
         this.openSnackBarBottom('Operação criada com sucesso!', 'OPERAÇÕES');
         this.dialogRef.close(true);
       }, error => {
-        this.openSnackBarTop(`Erro ao criar operação: ${error.message}`, 'OPERAÇÕES');
+        this.openSnackBarTop(`${error.detail}`, 'OPERAÇÕES');
       });
     }
   }
@@ -134,7 +134,7 @@ export class SaleProcessFormComponent extends BaseComponent implements AfterView
         this.operationForm.get('unitPrice').patchValue(price);
       },
         error => {
-          this.openSnackBarTop('Erro ao buscar preço do produto', 'OPERAÇÕES');
+          this.openSnackBarTop(`Erro ao buscar preço do produto - ${error.detail}`, 'OPERAÇÕES');
       });    
   }
 

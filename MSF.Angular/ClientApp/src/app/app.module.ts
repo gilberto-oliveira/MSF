@@ -25,7 +25,7 @@ let config = new AuthServiceConfig([
     provider: new GoogleLoginProvider("719320913586-ovijs45hhc46pm2584fvnsulblf3l30h.apps.googleusercontent.com")
   }
 ]);
- 
+
 export function provideConfig() {
   return config;
 }

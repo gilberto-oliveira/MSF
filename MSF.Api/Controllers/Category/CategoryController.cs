@@ -11,7 +11,6 @@ namespace MSF.Api.Controllers.Category
 
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles="Admin")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -22,6 +21,7 @@ namespace MSF.Api.Controllers.Category
         }
 
         [HttpGet("Lazy")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> LazyCategories(string filter, int take, int skip)
         {
             var categories = await _categoryService.LazyCategoriesViewModelAsync(filter, take, skip);
@@ -29,6 +29,7 @@ namespace MSF.Api.Controllers.Category
         }
 
         [HttpGet("Find")]
+        [Authorize(Roles = "Admin, Estoque")]
         public async Task<IActionResult> FindByFilter(string filter)
         {
             var result = await _categoryService.FindByFilter(filter);
@@ -36,6 +37,7 @@ namespace MSF.Api.Controllers.Category
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post([FromBody] Domain.Models.Category category)
         {
             await _categoryService.AddAsync(category);
@@ -43,6 +45,7 @@ namespace MSF.Api.Controllers.Category
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Put([FromBody] Domain.Models.Category category)
         {
             await _categoryService.UpdateAsync(category);
@@ -50,6 +53,7 @@ namespace MSF.Api.Controllers.Category
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _categoryService.FindAsync(id);

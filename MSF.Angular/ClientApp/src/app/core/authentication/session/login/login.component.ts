@@ -57,11 +57,11 @@ export class LoginComponent extends BaseComponent implements OnInit {
   onSubmit() {
     const auth = this.authForm.value;
     this._authService.login(auth.Email, auth.PasswordHash)
-      .subscribe(user => {
+      .subscribe(_ => {
         this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/index';
         this.router.navigate([this.returnUrl]);
       }, error => {
-        this.openSnackBarTop(`Erro: ${error.message}`, 'LOGIN');
+        this.openSnackBarTop(`${error.detail}`, 'LOGIN');
       });
   }
 
@@ -77,7 +77,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
         this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/index';
         this.router.navigate([this.returnUrl]);
       }, error => {
-        this.openSnackBarTop(`Erro: ${error.message}`, 'LOGIN');
+        this.openSnackBarTop(`${error.detail}`, 'LOGIN');
       });
   }
 

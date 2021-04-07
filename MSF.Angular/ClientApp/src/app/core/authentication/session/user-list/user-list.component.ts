@@ -71,9 +71,8 @@ export class UserListComponent extends BaseComponent implements AfterViewInit, O
       .subscribe(data => {
         this.resultsLength = data.count;
         this.users = data.users;
-      }),
-      catchError(() => {
-        return observableOf([]);
+      }, error => {
+        this.openSnackBarTop(`${error.detail}`, 'USUÁRIOS');
       });
   }
 
@@ -93,7 +92,7 @@ export class UserListComponent extends BaseComponent implements AfterViewInit, O
             this.openSnackBarBottom('Senha resetada com sucesso!', 'USUÁRIOS');
             this.getLazy('', this.pageSize);
           }, error => {
-            this.openSnackBarTop(`Erro ao resetar senha: ${error.message}`, 'USUÁRIOS');
+            this.openSnackBarTop(`${error.detail}`, 'USUÁRIOS');
           });
       }
     });

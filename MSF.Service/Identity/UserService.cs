@@ -107,24 +107,21 @@ namespace MSF.Service.Identity
         {
             if (user != null)
             {
-                try
-                {
-                    var userIdentity = await _userManager.FindByEmailAsync(user.Email);
+                var userIdentity = await _userManager.FindByEmailAsync(user.Email);
 
-                    if (userIdentity != null)
+                if (userIdentity != null)
+                {
+                    var auth = await _signInManager
+                        .CheckPasswordSignInAsync(userIdentity, user.PasswordHash, false);
+
+                    if (auth.Succeeded)
                     {
-                        var auth = await _signInManager
-                            .CheckPasswordSignInAsync(userIdentity, user.PasswordHash, false);
-
-                        if (auth.Succeeded)
-                        {
-                            return await GetToken(userIdentity);
-                        }
+                        return await GetToken(userIdentity);
                     }
-                }
-                catch (Exception e)
-                {
-                    throw e;
+                    else
+                    {
+                        throw new Exception("Usuário e/ou senha inválidos!");
+                    }
                 }
             }
             return null;

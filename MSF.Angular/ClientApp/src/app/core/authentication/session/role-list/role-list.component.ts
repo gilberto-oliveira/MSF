@@ -77,10 +77,9 @@ export class RoleListComponent extends BaseComponent implements AfterViewInit, O
     this._userService.lazyById(this.userId)
       .subscribe(u => { 
         this._titleService.setTitle("Perfis do Usuário: " + u.firstName + " " + u.lastName);
-       }),
-      catchError(() => {
-        return observableOf([]);
-      })
+       }, error => {
+        this.openSnackBarTop(`${error.detail}`, 'PERFIS');
+       });
   }
 
   ngAfterViewInit() {
@@ -105,9 +104,8 @@ export class RoleListComponent extends BaseComponent implements AfterViewInit, O
       .subscribe(data => {
         this.resultsLength = data.count;
         this.roles = data.roles;
-      }),
-      catchError(() => {
-        return observableOf([]);
+      }, error => {
+        this.openSnackBarTop(`${error.detail}`, 'PERFIS');
       });
   }
 
@@ -127,7 +125,7 @@ export class RoleListComponent extends BaseComponent implements AfterViewInit, O
             this.openSnackBarBottom('Perfil excluído com sucesso!', 'PERFIS');
             this.getLazy('', this.pageSize);
           }, error => {
-            this.openSnackBarTop(`Erro ao excluir perfil: ${error.message}`, 'PERFIS');
+            this.openSnackBarTop(`${error.detail}`, 'PERFIS');
           });
       }
     });
